@@ -11,11 +11,16 @@ export const getAuthStatus = async () => {
   const existingUser = await db.get(`user:${sessionUser.id}`);
 
   if (!existingUser) {
-    await db.set(`user:${sessionUser.id}`, {
+    const setUserDetails = db.set(`user:${sessionUser.id}`, {
       username: `${sessionUser.given_name} ${sessionUser.family_name}`,
       email: sessionUser.email,
       id: sessionUser.id,
     });
+    const setUserEmail = db.set(
+      `user:email:${sessionUser.email}`,
+      sessionUser.id
+    );
+    await Promise.all([setUserDetails, setUserEmail]);
   }
 
   return { success: true };

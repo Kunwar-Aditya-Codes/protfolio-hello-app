@@ -1,0 +1,87 @@
+'use client';
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from './ui/button';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { addFriendValidator } from '@/lib/validations/add-friend';
+import { z } from 'zod';
+import { useMutation } from '@tanstack/react-query';
+import { addFriendToChat } from '@/app/dashboard/actions';
+import { useToast } from './ui/use-toast';
+
+type FormData = z.infer<typeof addFriendValidator>;
+
+const AddFriend = () => {
+  const { toast } = useToast();
+
+  const { register, handleSubmit } = useForm<FormData>({
+    resolver: zodResolver(addFriendValidator),
+  });
+
+  const { mutate } = useMutation({
+    mutationKey: ['add-friend'],
+    mutationFn: addFriendToChat,
+    onSuccess: ({ success }) => {
+      if (success) {
+        toast({
+          title: 'Request sent.',
+          description: 'Your friend request has been sent successfully!',
+          duration: 1500,
+        });
+      }
+    },
+    onError: (error) => {
+      toast({
+        title: error.message,
+        duration: 1500,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const onSubmit = (data: FormData) => {
+    mutate({ email: data.email });
+  };
+  return (
+    <div>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button size={'sm'} variant={'default'}>
+            Add Friend
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className='text-xl'>Add Friend</DialogTitle>
+          </DialogHeader>
+          <div className='mt-1'>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <label htmlFor='email' className='text-sm text-zinc-600'>
+                Enter a valid email
+              </label>
+              <input
+                {...register('email')}
+                type='email'
+                name='email'
+                autoFocus
+                placeholder='xyz@email.com'
+                className='w-full p-2.5 mt-1.5 rounded-md text-sm text-zinc-700 outline-none border border-zinc-300 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:border-hidden'
+              />
+              <Button className='mt-6' size={'sm'} variant={'outline'}>
+                Submit
+              </Button>
+            </form>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
+export default AddFriend;
