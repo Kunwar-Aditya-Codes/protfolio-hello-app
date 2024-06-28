@@ -15,11 +15,14 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { addFriendToChat } from '@/app/dashboard/actions';
 import { useToast } from './ui/use-toast';
+import { Plus, PlusCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 type FormData = z.infer<typeof addFriendValidator>;
 
 const AddFriend = () => {
   const { toast } = useToast();
+  const router = useRouter();
 
   const { register, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(addFriendValidator),
@@ -35,6 +38,7 @@ const AddFriend = () => {
           description: 'Your friend request has been sent successfully!',
           duration: 1500,
         });
+        router.refresh();
       }
     },
     onError: (error) => {
@@ -52,10 +56,8 @@ const AddFriend = () => {
   return (
     <div>
       <Dialog>
-        <DialogTrigger asChild>
-          <Button size={'sm'} variant={'default'}>
-            Add Friend
-          </Button>
+        <DialogTrigger>
+          <PlusCircle className='size-7 text-zinc-500 hover:text-zinc-800' />
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>

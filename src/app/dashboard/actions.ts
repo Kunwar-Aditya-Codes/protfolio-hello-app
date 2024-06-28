@@ -3,6 +3,7 @@
 import { db } from '@/lib/db';
 import { addFriendValidator } from '@/lib/validations/add-friend';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import { revalidatePath } from 'next/cache';
 
 export const addFriendToChat = async ({ email }: { email: string }) => {
   // checking for logged in user
@@ -38,6 +39,40 @@ export const addFriendToChat = async ({ email }: { email: string }) => {
 
   // send friend request
   await db.sadd(`user:${idToAdd}:incoming_friend_request`, sessionUser.id);
+
+  revalidatePath('/dashboard');
+
+  return { success: true };
+};
+
+export const acceptFriendRequest = async ({ idToAdd }: { idToAdd: string }) => {
+  // checking for logged in user
+  const { getUser } = getKindeServerSession();
+  const sessionUser = await getUser();
+  if (!sessionUser?.email || !sessionUser?.id)
+    throw new Error('User not logged in!');
+
+  // check if user already friend
+  const isAlreadyFriend = await db.sismember(
+    `user:${sessionUser.id}:friends`,
+    idToAdd
+  );
+  if (isAlreadyFriend) throw new Error('You are already friends!');
+
+  // check if there is actual incoming request
+  const hasFriendRequest = await db.sismember(
+    `user:${sessionUser.id}:incoming_friend_request`,
+    idToAdd
+  );
+  if (!hasFriendRequest) throw new Error('No friend request.');
+
+  await Promise.all([
+    db.sadd(`user:${sessionUser.id}:friends`, idToAdd),
+    db.sadd(`user:${idToAdd}:friends`, sessionUser.id),
+    db.srem(`user:${sessionUser.id}:incoming_friend_request`, idToAdd),
+  ]);
+
+  revalidatePath('/dashboard');
 
   return { success: true };
 };
