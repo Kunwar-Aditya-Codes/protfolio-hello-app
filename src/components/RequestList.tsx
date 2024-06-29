@@ -1,8 +1,13 @@
 'use client';
 
-import { acceptFriendRequest } from '@/app/dashboard/actions';
+import {
+  acceptFriendRequest,
+  rejectFriendRequest,
+} from '@/app/dashboard/actions';
 import { useMutation } from '@tanstack/react-query';
 import { Check, X } from 'lucide-react';
+import { useToast } from './ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 interface RequestListProps {
   incomingRequests: {
@@ -13,14 +18,56 @@ interface RequestListProps {
 }
 
 const RequestList = ({ incomingRequests }: RequestListProps) => {
+  const { toast } = useToast();
+  const router = useRouter();
+
   const { mutate: acceptFriendRequestMutation } = useMutation({
     mutationKey: ['accept-request'],
     mutationFn: acceptFriendRequest,
-    // TODO: add success and error states
+    onSuccess: ({ success }) => {
+      if (success) {
+        toast({
+          title: 'You are now friends.',
+          duration: 1500,
+        });
+        router.refresh();
+      }
+    },
+    onError: (error) => {
+      toast({
+        title: error.message,
+        duration: 1500,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const { mutate: rejectFriendRequestMutation } = useMutation({
+    mutationKey: ['reject-request'],
+    mutationFn: rejectFriendRequest,
+    onSuccess: ({ success }) => {
+      if (success) {
+        toast({
+          title: 'Friend request denied.',
+          duration: 1500,
+        });
+        router.refresh();
+      }
+    },
+    onError: (error) => {
+      toast({
+        title: error.message,
+        duration: 1500,
+        variant: 'destructive',
+      });
+    },
   });
 
   const handleAcceptRequest = (id: string) => {
     acceptFriendRequestMutation({ idToAdd: id });
+  };
+  const handleRejectRequest = (id: string) => {
+    rejectFriendRequestMutation({ idToDeny: id });
   };
 
   return (
@@ -43,7 +90,10 @@ const RequestList = ({ incomingRequests }: RequestListProps) => {
             >
               <Check className='size-4 text-green-600' />
             </button>
-            <button className='border-2 border-red-600 bg-red-200 rounded-md p-1'>
+            <button
+              onClick={() => handleRejectRequest(sender.senderId)}
+              className='border-2 border-red-600 bg-red-200 rounded-md p-1'
+            >
               <X className='size-4 text-red-600' />
             </button>
           </div>

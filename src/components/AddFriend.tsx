@@ -15,7 +15,7 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { addFriendToChat } from '@/app/dashboard/actions';
 import { useToast } from './ui/use-toast';
-import { Plus, PlusCircle } from 'lucide-react';
+import { PlusCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 type FormData = z.infer<typeof addFriendValidator>;
@@ -24,7 +24,7 @@ const AddFriend = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const { register, handleSubmit } = useForm<FormData>({
+  const { register, handleSubmit, reset } = useForm<FormData>({
     resolver: zodResolver(addFriendValidator),
   });
 
@@ -33,6 +33,9 @@ const AddFriend = () => {
     mutationFn: addFriendToChat,
     onSuccess: ({ success }) => {
       if (success) {
+        reset({
+          email: '',
+        });
         toast({
           title: 'Request sent.',
           description: 'Your friend request has been sent successfully!',

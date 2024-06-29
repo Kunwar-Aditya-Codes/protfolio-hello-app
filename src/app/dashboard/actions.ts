@@ -76,3 +76,21 @@ export const acceptFriendRequest = async ({ idToAdd }: { idToAdd: string }) => {
 
   return { success: true };
 };
+
+export const rejectFriendRequest = async ({
+  idToDeny,
+}: {
+  idToDeny: string;
+}) => {
+  // checking for logged in user
+  const { getUser } = getKindeServerSession();
+  const sessionUser = await getUser();
+  if (!sessionUser?.email || !sessionUser?.id)
+    throw new Error('User not logged in!');
+
+  await db.srem(`user:${sessionUser.id}:incoming_friend_request`, idToDeny);
+
+  revalidatePath('/dashboard');
+
+  return { success: true };
+};

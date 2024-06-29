@@ -1,4 +1,4 @@
 const Page = async () => {
-  return <div className=''></div>;
+  return <div className=''>Dashboard</div>;
 };
 export default Page;

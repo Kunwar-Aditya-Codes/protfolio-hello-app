@@ -1,5 +1,7 @@
 import AddFriend from '@/components/AddFriend';
+import ChatList from '@/components/ChatList';
 import FriendRequest from '@/components/FriendRequest';
+import { db } from '@/lib/db';
 import { cn } from '@/lib/utils';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { ArrowLeftFromLine } from 'lucide-react';
@@ -16,14 +18,25 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 
   if (!sessionUser?.id || !sessionUser?.email) notFound();
 
+  const friendListIds = await db.smembers(`user:${sessionUser.id}:friends`);
+
+  const friendsList = await Promise.all(
+    friendListIds.map(async (friend) => {
+      const userFriend = (await db.get(`user:${friend}`)) as User;
+      return {
+        ...userFriend,
+      };
+    })
+  );
+
   return (
-    <div className='flex h-screen bg-slate-50'>
+    <div className='flex h-screen bg-zinc-50  overflow-hidden'>
       {/* Sidebar */}
-      <div className='flex-[0.05] flex flex-col shadow-xl bg-white'>
+      <div className='flex-[0.05] flex flex-col border-r-2 border-zinc-100'>
         <div className='flex items-center justify-center p-3'>
           <h1
             className={cn(
-              'bg-orange-500 text-white rounded-full w-[3.5rem] h-[3.5rem] flex items-center justify-center text-3xl font-black ',
+              'bg-orange-500 text-white rounded-full w-[3.25rem] h-[3.25rem] flex items-center justify-center text-2xl font-black ',
               pacifico.className
             )}
           >
@@ -33,9 +46,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 
         <div className='grow flex flex-col gap-y-8 items-center mt-8'>
           <AddFriend />
-          {/* Add friend notification */}
           <FriendRequest />
-          
         </div>
 
         <div className='flex items-center justify-center p-4'>
@@ -48,17 +59,25 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
         </div>
       </div>
       {/* Chats */}
-      <div className='flex-[0.225] h-full border-r'>
-        <div className='border-b p-6'>
+      <div className='flex-[0.2] h-full bg-white border-r border-zinc-200'>
+        <div className=' p-6'>
           <h2 className='font-bold text-2xl tracking-tighter text-zinc-700'>
             Messages
           </h2>
         </div>
-        <div></div>
+        <div className='h-full'>
+          {friendsList.length > 0 ? (
+            <ChatList friendsList={friendsList} />
+          ) : (
+            <p className='text-center mt-4 text-zinc-700 font-semibold text-lg '>
+              No chats found!
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Messsage */}
-      <div className='flex-[0.725]'></div>
+      <div className='flex-[0.75] bg-white'>{children}</div>
     </div>
   );
 };
