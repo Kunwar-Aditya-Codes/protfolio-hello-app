@@ -59,7 +59,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
         </div>
       </div>
       {/* Chats */}
-      <div className='flex-[0.2] h-full bg-white border-r border-zinc-200'>
+      <div className='flex-[0.2] h-full bg-white '>
         <div className=' p-6'>
           <h2 className='font-bold text-2xl tracking-tighter text-zinc-700'>
             Messages
@@ -67,7 +67,10 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
         </div>
         <div className='h-full'>
           {friendsList.length > 0 ? (
-            <ChatList friendsList={friendsList} />
+            <ChatList
+              friendsList={friendsList}
+              sessionUserId={sessionUser.id}
+            />
           ) : (
             <p className='text-center mt-4 text-zinc-700 font-semibold text-lg '>
               No chats found!

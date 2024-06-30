@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Separator } from './ui/separator';
+import { chatHrefConstructor } from '@/lib/utils';
 
 const getInitials = (name: string) => {
   const names = name.split(' ');
@@ -9,11 +10,22 @@ const getInitials = (name: string) => {
   return initials.toUpperCase();
 };
 
-const ChatList = ({ friendsList }: { friendsList: User[] }) => {
+const ChatList = ({
+  friendsList,
+  sessionUserId,
+}: {
+  friendsList: User[];
+  sessionUserId: string;
+}) => {
   return (
     <div className='h-full '>
       {friendsList.map((friend) => (
-        <Link href={`/dashboard/${friend.id}`}>
+        <Link
+          href={`/dashboard/chat/${chatHrefConstructor(
+            sessionUserId,
+            friend.id
+          )}`}
+        >
           <div key={friend.id} className='px-6 pt-4  hover:bg-zinc-100/60'>
             <div className='flex items-center space-x-3'>
               <div>
