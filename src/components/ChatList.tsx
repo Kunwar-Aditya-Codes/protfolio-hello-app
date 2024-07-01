@@ -4,12 +4,6 @@ import Link from 'next/link';
 import { Separator } from './ui/separator';
 import { chatHrefConstructor } from '@/lib/utils';
 
-const getInitials = (name: string) => {
-  const names = name.split(' ');
-  const initials = names.map((n) => n[0]).join('');
-  return initials.toUpperCase();
-};
-
 const ChatList = ({
   friendsList,
   sessionUserId,
@@ -28,12 +22,12 @@ const ChatList = ({
           key={friend.id}
         >
           <div className='px-6 pt-4  hover:bg-zinc-100/60'>
-            <div className='flex items-center space-x-3'>
-              <div>
-                <div className='text-lg w-11 h-11 flex bg-orange-600 ring-2 ring-orange-400 items-center justify-center rounded-full  text-white font-extrabold tracking-wider'>
-                  {getInitials(friend.username)}
-                </div>
-              </div>
+            <div className='flex items-center space-x-2.5'>
+              <img
+                src={friend.profileImage}
+                alt='profile-image'
+                className='size-[2.7rem] rounded-full'
+              />
               <div className='w-full'>
                 <p className='font-bold text-lg text-zinc-600'>
                   {friend.username}

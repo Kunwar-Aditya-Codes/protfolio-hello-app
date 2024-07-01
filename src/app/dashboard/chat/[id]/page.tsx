@@ -35,7 +35,12 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div className='h-full flex flex-col'>
-      <div className='bg-white h-[4rem] border-b drop-shadow-sm flex items-center px-6'>
+      <div className='bg-white h-[4rem] border-b drop-shadow-sm flex items-center gap-x-2.5 px-6'>
+        <img
+          src={chatPartner.profileImage}
+          alt='profile-avatar'
+          className='size-[2.5rem] rounded-full'
+        />
         <div>
           <h1 className='text-base tracking-tight text-zinc-800 font-medium'>
             {chatPartner.username}

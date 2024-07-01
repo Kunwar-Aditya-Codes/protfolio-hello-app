@@ -2,6 +2,8 @@
 
 import { db } from '@/lib/db';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import { createAvatar } from '@dicebear/core';
+import { initials } from '@dicebear/collection';
 
 export const getAuthStatus = async () => {
   const { getUser } = getKindeServerSession();
@@ -11,10 +13,17 @@ export const getAuthStatus = async () => {
   const existingUser = await db.get(`user:${sessionUser.id}`);
 
   if (!existingUser) {
+    const username = `${sessionUser.given_name} ${sessionUser.family_name}`;
+    const createAvatarImage = createAvatar(initials, {
+      seed: username,
+    });
+    const avatar = createAvatarImage.toDataUri();
+
     const setUserDetails = db.set(`user:${sessionUser.id}`, {
-      username: `${sessionUser.given_name} ${sessionUser.family_name}`,
+      username,
       email: sessionUser.email,
       id: sessionUser.id,
+      profileImage: avatar,
     });
     const setUserEmail = db.set(
       `user:email:${sessionUser.email}`,
