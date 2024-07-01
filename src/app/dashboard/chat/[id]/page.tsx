@@ -35,7 +35,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
         <div className='grow'>Messages</div>
 
         {/* Chat Input */}
-        <ChatInput chatPartner={chatPartner} />
+        <ChatInput chatId={id} chatPartner={chatPartner} />
       </div>
     </div>
   );

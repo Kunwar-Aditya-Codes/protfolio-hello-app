@@ -25,8 +25,9 @@ const ChatList = ({
             sessionUserId,
             friend.id
           )}`}
+          key={friend.id}
         >
-          <div key={friend.id} className='px-6 pt-4  hover:bg-zinc-100/60'>
+          <div className='px-6 pt-4  hover:bg-zinc-100/60'>
             <div className='flex items-center space-x-3'>
               <div>
                 <div className='text-lg w-11 h-11 flex bg-orange-600 ring-2 ring-orange-400 items-center justify-center rounded-full  text-white font-extrabold tracking-wider'>
