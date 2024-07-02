@@ -12,3 +12,9 @@ interface Message {
   text: string;
   timestamp: number;
 }
+
+interface IncomingFriendRequest {
+  senderId: string;
+  senderEmail: string;
+  senderName: string;
+}

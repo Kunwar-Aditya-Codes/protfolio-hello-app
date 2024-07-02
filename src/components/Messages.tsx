@@ -1,8 +1,9 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { pusherClient } from '@/lib/pusher';
+import { cn, toPusherKey } from '@/lib/utils';
 import { format } from 'date-fns';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface MessagesProps {
   initialMessages: Message[];
@@ -19,13 +20,25 @@ const Messages = ({
 }: MessagesProps) => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
 
+  useEffect(() => {
+    pusherClient.subscribe(toPusherKey(`chat:${chatId}`));
+
+    const messageHandler = (message: Message) => {
+      setMessages((prev) => [message, ...prev]);
+    };
+    pusherClient.bind('incoming_message', messageHandler);
+
+    return () => {
+      pusherClient.unsubscribe(toPusherKey(`chat:${chatId}`));
+      pusherClient.unbind('incoming_message', messageHandler);
+    };
+  }, []);
+
   const scrollDownRef = useRef<HTMLDivElement | null>(null);
 
   const formatTimestamp = (timestamp: number) => {
     return format(timestamp, 'HH:mm aaaa');
   };
-
-  
 
   return (
     <div
@@ -44,8 +57,18 @@ const Messages = ({
             <div
               className={cn('flex items-end', {
                 'justify-end': isCurrentUser,
+                'gap-x-2.5': !isCurrentUser,
               })}
             >
+              <div>
+                {!isCurrentUser && (
+                  <img
+                    src={chatPartner.profileImage}
+                    alt=''
+                    className='size-6 rounded-full'
+                  />
+                )}
+              </div>
               <span
                 className={cn(
                   ' rounded-full text-lg font-light justify-between shadow-md px-5 flex items-baseline  py-2.5',

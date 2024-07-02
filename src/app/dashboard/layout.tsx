@@ -66,16 +66,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
           </h2>
         </div>
         <div className='h-full'>
-          {friendsList.length > 0 ? (
-            <ChatList
-              friendsList={friendsList}
-              sessionUserId={sessionUser.id}
-            />
-          ) : (
-            <p className='text-center mt-4 text-zinc-700 font-semibold text-lg '>
-              No chats found!
-            </p>
-          )}
+          <ChatList friendsList={friendsList} sessionUserId={sessionUser.id} />
         </div>
       </div>
 

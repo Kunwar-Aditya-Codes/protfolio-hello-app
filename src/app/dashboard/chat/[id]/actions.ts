@@ -1,6 +1,8 @@
 'use server';
 
 import { db } from '@/lib/db';
+import { pusherServer } from '@/lib/pusher';
+import { toPusherKey } from '@/lib/utils';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { nanoid } from 'nanoid';
 
@@ -38,6 +40,18 @@ export const sendMessage = async ({
     text,
     timestamp,
   };
+
+  pusherServer.trigger(
+    toPusherKey(`chat:${chatId}`),
+    'incoming_message',
+    message
+  );
+
+  pusherServer.trigger(
+    toPusherKey(`user:${friendId}:chats`),
+    'new_message',
+    message
+  );
 
   await db.zadd(`chat:${chatId}:messages`, {
     score: timestamp,

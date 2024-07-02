@@ -1,14 +1,8 @@
 import { db } from '@/lib/db';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import { Bell } from 'lucide-react';
+import Notification from './Notification';
 import RequestList from './RequestList';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from './ui/dialog';
+import { Dialog } from './ui/dialog';
 
 const FriendRequest = async () => {
   const { getUser } = getKindeServerSession();
@@ -29,29 +23,19 @@ const FriendRequest = async () => {
     })
   );
 
+  const unseenRequestCount = incomingRequests.length;
+
   return (
-    <div className=''>
-      <Dialog>
-        <DialogTrigger className='relative'>
-          <Bell className='size-7 text-zinc-500 hover:text-zinc-800' />
-          <div className='absolute -top-1 left-4'>
-            {incomingRequests.length > 0 ? (
-              <p className='bg-orange-500 size-4 text-xs rounded-full text-white font-medium '>
-                {incomingRequests.length}
-              </p>
-            ) : null}
-          </div>
-        </DialogTrigger>
-        <DialogContent className='px-4'>
-          <DialogHeader>
-            <DialogTitle className='text-xl'>Friend Requests</DialogTitle>
-          </DialogHeader>
-          <div className='mt-2 grid h-[24rem] overflow-hidden overflow-y-auto'>
-            <RequestList incomingRequests={incomingRequests} />
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
+    <Dialog>
+      <Notification
+        sessionUserId={sessionUser?.id!}
+        initialUnseenRequestCount={unseenRequestCount}
+      />
+      <RequestList
+        sessionUserId={sessionUser?.id!}
+        incomingRequests={incomingRequests}
+      />
+    </Dialog>
   );
 };
 export default FriendRequest;

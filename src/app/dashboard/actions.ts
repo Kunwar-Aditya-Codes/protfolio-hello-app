@@ -1,6 +1,8 @@
 'use server';
 
 import { db } from '@/lib/db';
+import { pusherServer } from '@/lib/pusher';
+import { toPusherKey } from '@/lib/utils';
 import { addFriendValidator } from '@/lib/validations/add-friend';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { revalidatePath } from 'next/cache';
@@ -37,10 +39,20 @@ export const addFriendToChat = async ({ email }: { email: string }) => {
   );
   if (isAlreadyFriend) throw new Error('You are already friends!');
 
+  pusherServer.trigger(
+    toPusherKey(`user:${idToAdd}:incoming_friend_request`),
+    'incoming_friend_request',
+    {
+      senderId: sessionUser.id,
+      senderEmail: sessionUser.email,
+      senderName: `${sessionUser.given_name} ${sessionUser.family_name}`,
+    }
+  );
+
   // send friend request
   await db.sadd(`user:${idToAdd}:incoming_friend_request`, sessionUser.id);
 
-  revalidatePath('/dashboard');
+  // revalidatePath('/dashboard');
 
   return { success: true };
 };
@@ -57,6 +69,7 @@ export const acceptFriendRequest = async ({ idToAdd }: { idToAdd: string }) => {
     `user:${sessionUser.id}:friends`,
     idToAdd
   );
+
   if (isAlreadyFriend) throw new Error('You are already friends!');
 
   // check if there is actual incoming request
@@ -66,15 +79,31 @@ export const acceptFriendRequest = async ({ idToAdd }: { idToAdd: string }) => {
   );
   if (!hasFriendRequest) throw new Error('No friend request.');
 
+  const [user, newFriend] = await Promise.all([
+    await db.get(`user:${sessionUser.id}`),
+    await db.get(`user:${idToAdd}`),
+  ]);
+
+  pusherServer.trigger(
+    toPusherKey(`user:${sessionUser.id}:friends`),
+    'new_friend',
+    newFriend
+  );
+
+  pusherServer.trigger(
+    toPusherKey(`user:${idToAdd}:friends`),
+    'new_friend',
+    user
+  );
   await Promise.all([
     db.sadd(`user:${sessionUser.id}:friends`, idToAdd),
     db.sadd(`user:${idToAdd}:friends`, sessionUser.id),
     db.srem(`user:${sessionUser.id}:incoming_friend_request`, idToAdd),
   ]);
 
-  revalidatePath('/dashboard');
+  revalidatePath('/dashboard', 'layout');
 
-  return { success: true };
+  return { success: true, senderId: idToAdd };
 };
 
 export const rejectFriendRequest = async ({
@@ -92,5 +121,5 @@ export const rejectFriendRequest = async ({
 
   revalidatePath('/dashboard');
 
-  return { success: true };
+  return { success: true, senderId: idToDeny };
 };

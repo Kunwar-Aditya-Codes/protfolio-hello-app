@@ -41,7 +41,7 @@ const AddFriend = () => {
           description: 'Your friend request has been sent successfully!',
           duration: 1500,
         });
-        router.refresh();
+        // router.refresh();
       }
     },
     onError: (error) => {
