@@ -34,14 +34,16 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
       {/* Sidebar */}
       <div className='flex-[0.05] flex flex-col border-r-2 border-zinc-100'>
         <div className='flex items-center justify-center p-3'>
-          <h1
-            className={cn(
-              'bg-orange-500 text-white rounded-full w-[3.25rem] h-[3.25rem] flex items-center justify-center text-2xl font-black ',
-              pacifico.className
-            )}
-          >
-            h
-          </h1>
+          <Link href={'/dashboard'}>
+            <h1
+              className={cn(
+                'bg-orange-500 text-white rounded-full w-[3.25rem] h-[3.25rem] flex items-center justify-center text-2xl font-black ',
+                pacifico.className
+              )}
+            >
+              h
+            </h1>
+          </Link>
         </div>
 
         <div className='grow flex flex-col gap-y-8 items-center mt-8'>
@@ -59,7 +61,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
         </div>
       </div>
       {/* Chats */}
-      <div className='flex-[0.2] h-full bg-white '>
+      <div className='flex-[0.2] h-full bg-white border-r'>
         <div className=' p-6'>
           <h2 className='font-bold text-2xl tracking-tighter text-zinc-700'>
             Messages

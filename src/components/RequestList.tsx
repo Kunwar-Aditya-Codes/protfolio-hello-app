@@ -22,7 +22,6 @@ const RequestList = ({ incomingRequests, sessionUserId }: RequestListProps) => {
   const [friendRequests, setFriendRequests] =
     useState<IncomingFriendRequest[]>(incomingRequests);
   const { toast } = useToast();
-  const router = useRouter();
 
   useEffect(() => {
     pusherClient.subscribe(
@@ -89,7 +88,6 @@ const RequestList = ({ incomingRequests, sessionUserId }: RequestListProps) => {
         setFriendRequests((prev) =>
           prev.filter((request) => request.senderId !== senderId)
         );
-        router.refresh();
       }
     },
     onError: (error) => {

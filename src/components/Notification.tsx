@@ -22,6 +22,7 @@ const Notification = ({
       toPusherKey(`user:${sessionUserId}:incoming_friend_request`)
     );
     pusherClient.subscribe(toPusherKey(`user:${sessionUserId}:friends`));
+    pusherClient.subscribe(toPusherKey(`user:${sessionUserId}:reject`));
 
     const friendRequestHandler = () => {
       setUnseenRequestCount((prev) => prev + 1);
@@ -30,16 +31,25 @@ const Notification = ({
     const addedFriendHandler = () => {
       setUnseenRequestCount((prev) => prev - 1);
     };
+
+    const denyFriendHandler = () => {
+      setUnseenRequestCount((prev) => prev - 1);
+    };
+
     pusherClient.bind('incoming_friend_request', friendRequestHandler);
     pusherClient.bind('new_friend', addedFriendHandler);
+    pusherClient.bind('reject_friend', denyFriendHandler);
 
     return () => {
       pusherClient.unsubscribe(
         toPusherKey(`user:${sessionUserId}:incoming_friend_request`)
       );
       pusherClient.unsubscribe(toPusherKey(`user:${sessionUserId}:friends`));
+      pusherClient.unsubscribe(toPusherKey(`user:${sessionUserId}:reject`));
+
       pusherClient.unbind('incoming_friend_request', friendRequestHandler);
       pusherClient.unbind('new_friend', addedFriendHandler);
+      pusherClient.unbind('reject_friend', denyFriendHandler);
     };
   }, []);
 

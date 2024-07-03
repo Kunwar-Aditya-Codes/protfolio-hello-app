@@ -95,6 +95,7 @@ export const acceptFriendRequest = async ({ idToAdd }: { idToAdd: string }) => {
     'new_friend',
     user
   );
+
   await Promise.all([
     db.sadd(`user:${sessionUser.id}:friends`, idToAdd),
     db.sadd(`user:${idToAdd}:friends`, sessionUser.id),
@@ -119,7 +120,11 @@ export const rejectFriendRequest = async ({
 
   await db.srem(`user:${sessionUser.id}:incoming_friend_request`, idToDeny);
 
-  revalidatePath('/dashboard');
+  pusherServer.trigger(
+    toPusherKey(`user:${sessionUser.id}:reject`),
+    'reject_friend',
+    {}
+  );
 
   return { success: true, senderId: idToDeny };
 };
