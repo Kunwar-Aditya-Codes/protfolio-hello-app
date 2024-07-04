@@ -14,7 +14,6 @@ const ChatList = ({
   friendsList: User[];
   sessionUserId: string;
 }) => {
-  const router = useRouter();
   const pathName = usePathname();
   const [unseenMessages, setUnseenMessages] = useState<Message[]>([]);
   const [friends, setFriends] = useState<User[]>(friendsList);

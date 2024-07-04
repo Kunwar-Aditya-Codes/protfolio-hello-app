@@ -60,7 +60,7 @@ const AddFriend = () => {
     <div>
       <Dialog>
         <DialogTrigger>
-          <PlusCircle className='size-7 text-zinc-500 hover:text-zinc-800' />
+          <PlusCircle className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800' />
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>

@@ -1,3 +1,4 @@
+import ChatList from '@/components/ChatList';
 import { db } from '@/lib/db';
 import { chatHrefConstructor } from '@/lib/utils';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
@@ -29,52 +30,66 @@ const Page = async () => {
     )
   ).filter(Boolean);
 
+  const topChats = friendWithLastMessage.slice(0, 3);
+
   return (
-    <div className='h-full p-6'>
-      <h1 className='text-4xl font-semibold text-zinc-700'>Recent Chats</h1>
-      <div className='mt-8 max-w-5xl'>
-        {friendWithLastMessage.length === 0 ? (
-          <p>No recent chats!</p>
-        ) : (
-          friendWithLastMessage.map((friend) => (
-            <Link
-              key={friend?.id}
-              href={`/dashboard/chat/${chatHrefConstructor(
-                sessionUser.id,
-                friend?.id!
-              )}`}
-            >
-              <div className='hover:border rounded-lg shadow-md p-6 flex items-center justify-between'>
-                <div className='flex items-start gap-x-2'>
-                  <div className=''>
-                    <img
-                      src={friend?.profileImage}
-                      alt='profile-image'
-                      className='w-10 rounded-full'
-                    />
+    <div className='md:h-full'>
+      <div className='md:hidden'>
+        <div className=' p-6'>
+          <h2 className='font-bold text-2xl tracking-tighter text-zinc-700'>
+            Messages
+          </h2>
+        </div>
+        <div className='h-full '>
+          <ChatList friendsList={friends} sessionUserId={sessionUser.id} />
+        </div>
+      </div>
+      <div className='hidden md:block h-full p-10 md:p-36 bg-zinc-100 '>
+        <h1 className='text-4xl font-semibold text-zinc-700'>Recent Chats</h1>
+        <div className='mt-8 max-w-5xl'>
+          {topChats.length === 0 ? (
+            <p>No recent chats!</p>
+          ) : (
+            topChats.map((friend) => (
+              <Link
+                key={friend?.id}
+                href={`/dashboard/chat/${chatHrefConstructor(
+                  sessionUser.id,
+                  friend?.id!
+                )}`}
+              >
+                <div className='shadow-sm hover:shadow bg-white rounded-lg  p-6 flex items-center justify-between'>
+                  <div className='flex items-start gap-x-2'>
+                    <div className=''>
+                      <img
+                        src={friend?.profileImage}
+                        alt='profile-image'
+                        className='w-10 rounded-full'
+                      />
+                    </div>
+                    <div className='mt-1'>
+                      <p className='text-xl font-medium text-zinc-800'>
+                        {friend?.username}
+                      </p>
+                      <p className='mt-2 text-zinc-500 font-medium'>
+                        <span>
+                          {friend?.lastMessage.senderId === sessionUser.id
+                            ? 'You'
+                            : friend?.username}
+                          :
+                        </span>
+                        <span className='ml-1'>{friend?.lastMessage.text}</span>
+                      </p>
+                    </div>
                   </div>
-                  <div className='mt-1'>
-                    <p className='text-xl font-medium text-zinc-800'>
-                      {friend?.username}
-                    </p>
-                    <p className='mt-2 text-zinc-500 font-medium'>
-                      <span>
-                        {friend?.lastMessage.senderId === sessionUser.id
-                          ? 'You'
-                          : friend?.username}
-                        :
-                      </span>
-                      <span className='ml-1'>{friend?.lastMessage.text}</span>
-                    </p>
+                  <div>
+                    <ChevronRight className='size-6' />
                   </div>
                 </div>
-                <div>
-                  <ChevronRight className='size-6' />
-                </div>
-              </div>
-            </Link>
-          ))
-        )}
+              </Link>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
