@@ -9,9 +9,11 @@ import { nanoid } from 'nanoid';
 export const sendMessage = async ({
   text,
   chatId,
+  chatImageUrl,
 }: {
   text: string;
   chatId: string;
+  chatImageUrl?: string;
 }) => {
   const { getUser } = getKindeServerSession();
   const sessionUser = await getUser();
@@ -39,6 +41,7 @@ export const sendMessage = async ({
     senderId: sessionUser.id,
     text,
     timestamp,
+    chatImageUrl,
   };
 
   pusherServer.trigger(

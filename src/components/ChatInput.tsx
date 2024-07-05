@@ -1,12 +1,22 @@
 'use client';
 
-import { Loader2, Send } from 'lucide-react';
+import {
+  Image,
+  Loader2,
+  MousePointerSquareDashed,
+  Plus,
+  Send,
+  X,
+} from 'lucide-react';
 import { useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Button } from './ui/button';
 import { useMutation } from '@tanstack/react-query';
 import { sendMessage } from '@/app/dashboard/chat/[id]/actions';
 import { useToast } from './ui/use-toast';
+import { Progress } from './ui/progress';
+import { useUploadThing } from '@/lib/uploadthing';
+import Dropzone, { FileRejection } from 'react-dropzone';
 
 const ChatInput = ({
   chatPartner,
@@ -18,6 +28,24 @@ const ChatInput = ({
   const { toast } = useToast();
   const textInputRef = useRef<HTMLTextAreaElement | null>(null);
   const [input, setInput] = useState<string>('');
+  const [chatImageUrl, setChatImageUrl] = useState<string | undefined>(
+    undefined
+  );
+  const [isDragOver, setIsDragOver] = useState<boolean>(false);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [isDropZoneOpen, setIsDropZoneOpen] = useState<boolean>(false);
+
+  const { startUpload, isUploading } = useUploadThing('imageUploader', {
+    onClientUploadComplete: ([data]) => {
+      const { chatImageUrl: urlFromServer } = data.serverData;
+      setChatImageUrl(urlFromServer);
+      setUploadProgress(0);
+      setIsDropZoneOpen(false);
+    },
+    onUploadProgress(p) {
+      setUploadProgress(p);
+    },
+  });
 
   const { mutate, isPending } = useMutation({
     mutationKey: ['send-message'],
@@ -26,6 +54,7 @@ const ChatInput = ({
     onSuccess: ({ success }) => {
       if (success) {
         setInput('');
+        setChatImageUrl(undefined);
         textInputRef.current?.focus();
       }
     },
@@ -51,10 +80,33 @@ const ChatInput = ({
     mutate({
       text: input,
       chatId,
+      chatImageUrl,
     });
   };
+
+  const onDropRejected = (rejectedFiles: FileRejection[]) => {
+    const [file] = rejectedFiles;
+    setIsDragOver(false);
+    toast({
+      title: `${file.file.type} type is not supported.`,
+      description: 'Please choose a PNG, JPG or JPEG file type.',
+      variant: 'destructive',
+    });
+  };
+
+  const onDropAccepted = (acceptedFiles: File[]) => {
+    startUpload(acceptedFiles, { chatId });
+    setIsDragOver(false);
+  };
+
   return (
     <div className='px-6 py-4 bg-white'>
+      {chatImageUrl && chatImageUrl !== undefined ? (
+        <img
+          src={chatImageUrl}
+          className='w-[15%] border-zinc-300 mb-2 border p-2 rounded-xl'
+        />
+      ) : null}
       <div className='relative focus-within:outline-2 bg-zinc-100 focus-within:bg-zinc-50 border rounded-lg px-2 py-3.5 focus-within:border-orange-600 focus-within:border-2'>
         <TextareaAutosize
           ref={textInputRef}
@@ -80,7 +132,18 @@ const ChatInput = ({
           </div>
         </div>
 
-        <div className='absolute right-0 bottom-0 mb-2 mr-2 flex justify-between'>
+        <div className='absolute right-0 bottom-0 mb-2 mr-2 flex justify-between gap-x-2.5'>
+          <div>
+            <Button
+              size={'icon'}
+              type='button'
+              onClick={() => setIsDropZoneOpen(true)}
+              variant={'outline'}
+              className='border-orange-600 bg-transparent'
+            >
+              <Plus className='size-5 text-orange-600' />
+            </Button>
+          </div>
           <div className='flex-shrink-0'>
             <Button
               size={'icon'}
@@ -98,6 +161,75 @@ const ChatInput = ({
           </div>
         </div>
       </div>
+      {isDropZoneOpen ? (
+        <div className='z-[9999] absolute left-5 right-5  top-44 lg:left-56 lg:right-56 bottom-44 rounded-xl bg-white shadow-md'>
+          <Dropzone
+            onDropRejected={onDropRejected}
+            onDropAccepted={onDropAccepted}
+            accept={{
+              'image/png': ['.png'],
+              'image/jpeg': ['.jpeg'],
+              'image/jpg': ['.jpg'],
+            }}
+            onDragEnter={() => setIsDragOver(true)}
+            onDragLeave={() => setIsDragOver(false)}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <div className='flex flex-col h-full'>
+                <div className='p-2 flex items-center justify-end mt-1 mr-1'>
+                  <button onClick={() => setIsDropZoneOpen(false)}>
+                    <X className='size-6 p-0.5 hover:border-2 hover:border-orange-600 transition-colors text-orange-600 rounded-lg ' />
+                  </button>
+                </div>
+                <div className='h-full px-8 pt-4 pb-6 w-full'>
+                  <div
+                    {...getRootProps()}
+                    className='border-2 border-dashed rounded-lg w-full flex flex-1 flex-col items-center justify-center h-full'
+                  >
+                    <input {...getInputProps()} />
+                    {isDragOver ? (
+                      <MousePointerSquareDashed className='size-6 text-zinc-500 mb-2' />
+                    ) : isUploading || isPending ? (
+                      <Loader2 className='size-6 animate-spin text-zinc-500 mb-2' />
+                    ) : (
+                      <Image className='size-6 text-zinc-500 mb-2' />
+                    )}
+                    <div className='flex flex-col justify-center mb-2 text-sm text-zinc-700'>
+                      {isUploading ? (
+                        <div className='flex flex-col items-center'>
+                          <p>Uploading...</p>
+                          <Progress
+                            value={uploadProgress}
+                            className='mt-2 w-40 h-2 bg-gray-300'
+                          />
+                        </div>
+                      ) : isPending ? (
+                        <div className='flex flex-col items-center '>
+                          <p>Redirecting, please wait...</p>
+                        </div>
+                      ) : isDragOver ? (
+                        <p>
+                          <span className='font-semibold'>Drop file</span> to
+                          upload
+                        </p>
+                      ) : (
+                        <p>
+                          <span className='font-semibold'>Click to upload</span>{' '}
+                          or drag and drop
+                        </p>
+                      )}
+                    </div>
+
+                    {isPending ? null : (
+                      <p className='text-xs text-zinc-500'>PNG , JPEG, JPG</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </Dropzone>
+        </div>
+      ) : null}
     </div>
   );
 };

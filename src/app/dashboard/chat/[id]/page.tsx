@@ -35,8 +35,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const initialMessages = await getMessages(id);
 
   return (
-    <div className='h-full flex flex-col'>
-      <div className='bg-white h-[4rem] border-b drop-shadow-sm flex items-center justify-between px-6'>
+    <div className='h-full'>
+      <div className=' h-[4rem] border-b drop-shadow-sm flex items-center justify-between px-6'>
         <div className='flex items-center gap-x-2.5'>
           <img
             src={chatPartner.profileImage}
@@ -60,16 +60,14 @@ const Page = async ({ params }: { params: { id: string } }) => {
           </Link>
         </div>
       </div>
-      <div className='grow bg-zinc-100 flex flex-col justify-between'>
+      <div className=' bg-zinc-100'>
         {/* Messages */}
-        <div className='grow'>
-          <Messages
-            chatId={id}
-            chatPartner={chatPartner}
-            initialMessages={initialMessages}
-            sessionUserId={sessionUser.id}
-          />
-        </div>
+        <Messages
+          chatId={id}
+          chatPartner={chatPartner}
+          initialMessages={initialMessages}
+          sessionUserId={sessionUser.id}
+        />
 
         {/* Chat Input */}
         <ChatInput chatId={id} chatPartner={chatPartner} />

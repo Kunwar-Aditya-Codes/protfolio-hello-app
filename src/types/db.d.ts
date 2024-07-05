@@ -11,6 +11,7 @@ interface Message {
   // receiverId: string;
   text: string;
   timestamp: number;
+  chatImageUrl?: string;
 }
 
 interface IncomingFriendRequest {
