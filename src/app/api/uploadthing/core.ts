@@ -20,6 +20,20 @@ export const ourFileRouter = {
       const { input } = metadata;
       return { chatImageUrl: file.url, ...input };
     }),
+
+  profileUploader: f({ image: { maxFileSize: '4MB' } })
+    .input(
+      z.object({
+        sessionUserId: z.string(),
+      })
+    )
+    .middleware(async ({ input }) => {
+      return { input };
+    })
+    .onUploadComplete(async ({ metadata, file }) => {
+      const { input } = metadata;
+      return { profileImage: file.url, ...input };
+    }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

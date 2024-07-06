@@ -10,6 +10,7 @@ interface MessagesProps {
   sessionUserId: string;
   chatId: string;
   chatPartner: User;
+  chatSessionUser: User;
 }
 
 const Messages = ({
@@ -17,6 +18,7 @@ const Messages = ({
   chatPartner,
   initialMessages,
   sessionUserId,
+  chatSessionUser,
 }: MessagesProps) => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
 
@@ -57,52 +59,62 @@ const Messages = ({
             <div className=''>
               <div
                 className={cn('flex items-end mb-2 w-full ', {
-                  'justify-end': isCurrentUser,
+                  'justify-end pr-6': isCurrentUser,
                   'ml-6': !isCurrentUser,
                 })}
               >
-                <img src={message.chatImageUrl} alt='' className='w-[20%]' />
+                <img
+                  src={message.chatImageUrl}
+                  alt=''
+                  className='w-[45%] md:w-[30%] lg:w-[20%]'
+                />
               </div>
 
               <div
                 className={cn('flex items-end', {
                   'justify-end': isCurrentUser,
-                  'gap-x-2.5': !isCurrentUser,
                 })}
               >
-                <div>
-                  {!isCurrentUser && (
+                <div
+                  className={cn('flex items-end gap-x-2', {
+                    'flex-row-reverse': isCurrentUser,
+                  })}
+                >
+                  <div>
                     <img
-                      src={chatPartner.profileImage}
+                      src={
+                        message.senderId === sessionUserId
+                          ? chatSessionUser.profileImage
+                          : chatPartner.profileImage
+                      }
                       alt=''
                       className='size-6 rounded-full'
                     />
-                  )}
-                </div>
-
-                <span
-                  className={cn(
-                    ' rounded-full text-lg font-light justify-between shadow-md px-5 flex items-baseline  py-2.5',
-                    {
-                      'bg-orange-600 text-white': isCurrentUser,
-                      'bg-white text-zinc-800': !isCurrentUser,
-                      'rounded-br-none':
-                        !hasNextMessageFromSameUser && isCurrentUser,
-                      'rounded-bl-none':
-                        !hasNextMessageFromSameUser && !isCurrentUser,
-                    }
-                  )}
-                >
-                  <span className=''>{message.text}</span>
-                  <span
+                  </div>
+                  <div
                     className={cn(
-                      'ml-4 text-xs',
-                      isCurrentUser ? 'text-zinc-100' : 'text-zinc-600'
+                      ' rounded-full md:text-lg font-light justify-between shadow-md px-5 flex items-baseline  py-1.5 md:py-2.5',
+                      {
+                        'bg-orange-600 text-white': isCurrentUser,
+                        'bg-white text-zinc-800': !isCurrentUser,
+                        'rounded-br-none':
+                          !hasNextMessageFromSameUser && isCurrentUser,
+                        'rounded-bl-none':
+                          !hasNextMessageFromSameUser && !isCurrentUser,
+                      }
                     )}
                   >
-                    {formatTimestamp(message.timestamp)}
-                  </span>
-                </span>
+                    <span className=''>{message.text}</span>
+                    <span
+                      className={cn(
+                        'ml-4 text-xs',
+                        isCurrentUser ? 'text-zinc-100' : 'text-zinc-600'
+                      )}
+                    >
+                      {formatTimestamp(message.timestamp)}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -30,7 +30,12 @@ const Page = async ({ params }: { params: { id: string } }) => {
     notFound();
   }
   const chatPartnerId = sessionUser.id === userId1 ? userId2 : userId1;
-  const chatPartner = (await db.get(`user:${chatPartnerId}`)) as User;
+  const [chatSessionUser, chatPartner] = (await Promise.all([
+    await db.get(`user:${sessionUser.id}`),
+    await db.get(`user:${chatPartnerId}`),
+  ])) as [User, User];
+  // const chatPartner = (await db.get(`user:${chatPartnerId}`)) as User;
+  // const chatSessionUser = (await db.get(`user:${sessionUser.id}`)) as User;
 
   const initialMessages = await getMessages(id);
 
@@ -67,6 +72,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
           chatPartner={chatPartner}
           initialMessages={initialMessages}
           sessionUserId={sessionUser.id}
+          chatSessionUser={chatSessionUser}
         />
 
         {/* Chat Input */}

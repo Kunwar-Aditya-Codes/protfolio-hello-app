@@ -5,7 +5,7 @@ import MobileNavigation from '@/components/MobileNavigation';
 import { db } from '@/lib/db';
 import { cn } from '@/lib/utils';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import { ArrowLeftFromLine } from 'lucide-react';
+import { ArrowLeftFromLine, Settings } from 'lucide-react';
 import { Pacifico } from 'next/font/google';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -52,9 +52,12 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
           <div className='grow flex flex-col gap-y-8 items-center mt-8'>
             <AddFriend />
             <FriendRequest />
+            <Link href={'/dashboard/settings'}>
+              <Settings className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800' />
+            </Link>
           </div>
 
-          <div className='flex items-center justify-center p-4'>
+          <div className='flex  items-center justify-center p-4'>
             <Link
               href={'/api/auth/logout'}
               className='hover:bg-zinc-100 hover:shadow rounded-lg p-3'
