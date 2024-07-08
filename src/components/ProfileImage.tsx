@@ -14,22 +14,37 @@ import Dropzone, { FileRejection } from 'react-dropzone';
 import { Progress } from './ui/progress';
 import { useToast } from './ui/use-toast';
 import { useMutation } from '@tanstack/react-query';
+import { updateProfileImage } from '@/app/dashboard/settings/actions';
 
 const ProfileImage = ({ user }: { user: User }) => {
   const { toast } = useToast();
 
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [newProfileImageUrl, setNewProfileImageUrl] = useState<string>('');
 
   const { startUpload, isUploading } = useUploadThing('profileUploader', {
     onClientUploadComplete: ([data]) => {
       const { profileImage: newProfileImage } = data.serverData;
-      setNewProfileImageUrl(newProfileImage);
+      mutate({
+        profileImageUrl: newProfileImage,
+        user,
+      });
       setUploadProgress(0);
     },
     onUploadProgress(p) {
       setUploadProgress(p);
+    },
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ['update-profile-image'],
+    mutationFn: updateProfileImage,
+    onSuccess: ({ success }) => {
+      if (success) {
+        toast({
+          title: 'Profile image updated successfully!',
+        });
+      }
     },
   });
 
@@ -47,9 +62,6 @@ const ProfileImage = ({ user }: { user: User }) => {
     startUpload(acceptedFiles, { sessionUserId: user.id });
     setIsDragOver(false);
   };
-
-  // TODO: add server action to update profile image.
-  const { mutate, isPending } = useMutation({});
 
   return (
     <div className='flex-[0.15] relative'>
@@ -99,7 +111,7 @@ const ProfileImage = ({ user }: { user: User }) => {
                       </div>
                     ) : isPending ? (
                       <div className='flex flex-col items-center '>
-                        <p>Redirecting, please wait...</p>
+                        <p>Updating, please wait..</p>
                       </div>
                     ) : isDragOver ? (
                       <p>
