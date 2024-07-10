@@ -2,6 +2,7 @@ import ChatInput from '@/components/ChatInput';
 import Messages from '@/components/Messages';
 import { db } from '@/lib/db';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import { Video } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -34,27 +35,32 @@ const Page = async ({ params }: { params: { id: string } }) => {
     await db.get(`user:${sessionUser.id}`),
     await db.get(`user:${chatPartnerId}`),
   ])) as [User, User];
-  // const chatPartner = (await db.get(`user:${chatPartnerId}`)) as User;
-  // const chatSessionUser = (await db.get(`user:${sessionUser.id}`)) as User;
 
   const initialMessages = await getMessages(id);
 
   return (
     <div className='h-full'>
       <div className=' h-[4rem] border-b drop-shadow-sm flex items-center justify-between px-6'>
-        <div className='flex items-center gap-x-2.5'>
-          <img
-            src={chatPartner.profileImage}
-            alt='profile-avatar'
-            className='size-[2.5rem] rounded-full'
-          />
+        <div className='flex items-center justify-between w-full'>
+          <div className='flex items-center gap-x-2.5'>
+            <img
+              src={chatPartner.profileImage}
+              alt='profile-avatar'
+              className='size-[2.5rem] rounded-full'
+            />
+            <div>
+              <h1 className='text-base tracking-tight text-zinc-800 font-medium'>
+                {chatPartner.username}
+              </h1>
+              <p className='hidden md:block text-xs font-medium text-muted-foreground'>
+                {chatPartner.email}
+              </p>
+            </div>
+          </div>
           <div>
-            <h1 className='text-base tracking-tight text-zinc-800 font-medium'>
-              {chatPartner.username}
-            </h1>
-            <p className='hidden md:block text-xs font-medium text-muted-foreground'>
-              {chatPartner.email}
-            </p>
+            <Link href={`/dashboard/call/${id}`}>
+              <Video className='size-7 text-orange-600 ' />
+            </Link>
           </div>
         </div>
         <div className='md:hidden'>

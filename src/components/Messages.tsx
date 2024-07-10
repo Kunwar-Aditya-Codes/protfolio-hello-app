@@ -3,6 +3,7 @@
 import { pusherClient } from '@/lib/pusher';
 import { cn, toPusherKey } from '@/lib/utils';
 import { format } from 'date-fns';
+import { Members } from 'pusher-js';
 import { useEffect, useRef, useState } from 'react';
 
 interface MessagesProps {

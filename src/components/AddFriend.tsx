@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { addFriendValidator } from '@/lib/validations/add-friend';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
-import { addFriendToChat } from '@/app/dashboard/actions';
+import { addFriendToChat } from '@/app/dashboard/(chat)/actions';
 import { useToast } from './ui/use-toast';
 import { PlusCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';

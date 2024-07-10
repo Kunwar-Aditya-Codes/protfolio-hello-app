@@ -3,7 +3,7 @@
 import {
   acceptFriendRequest,
   rejectFriendRequest,
-} from '@/app/dashboard/actions';
+} from '@/app/dashboard/(chat)/actions';
 import { useMutation } from '@tanstack/react-query';
 import { Check, X } from 'lucide-react';
 import { useToast } from './ui/use-toast';

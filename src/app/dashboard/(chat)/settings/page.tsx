@@ -31,11 +31,11 @@ const Page = async () => {
               </h1>
             </div>
             <div>
-              <div className='flex flex-col gap-x-0.5'>
+              <div className='flex flex-col gap-1'>
                 <span className='text-xs tracking-wide text-zinc-800  bg-zinc-200 w-fit px-1.5 py-1 rounded-sm'>
                   Email
                 </span>
-                <p className='text-base text-zinc-600'>{user.email}</p>
+                <p className='text-sm text-zinc-600 '>{user.email}</p>
               </div>
             </div>
           </div>
