@@ -57,7 +57,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
               </p>
             </div>
           </div>
-          <div>
+          <div className='mr-6 md:mr-0'>
             <Link href={`/dashboard/call/${id}`}>
               <Video className='size-7 text-orange-600 ' />
             </Link>

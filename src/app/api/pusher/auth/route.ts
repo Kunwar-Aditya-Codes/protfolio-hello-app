@@ -1,7 +1,6 @@
 import { db } from '@/lib/db';
 import { pusherServer } from '@/lib/pusher';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import { PresenceChannelData, UserChannelData } from 'pusher';
 
 export const POST = async (req: Request) => {
   const data = await req.text();
@@ -22,7 +21,7 @@ export const POST = async (req: Request) => {
       email: user.email,
       profileImage: user.profileImage,
     },
-  } as PresenceChannelData;
+  };
 
   const auth = pusherServer.authorizeChannel(
     socketId,

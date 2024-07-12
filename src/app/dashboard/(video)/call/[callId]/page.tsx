@@ -22,7 +22,7 @@ const Page = async ({ params }: { params: { callId: string } }) => {
 
   return (
     <div className='h-screen bg-zinc-950 text-white p-6'>
-      <VideoCall you={chatSessionUser} partner={chatPartner} />
+      <VideoCall you={chatSessionUser} partner={chatPartner} callId={callId} />
     </div>
   );
 };
