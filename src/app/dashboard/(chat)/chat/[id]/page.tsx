@@ -1,5 +1,6 @@
 import ChatInput from '@/components/ChatInput';
 import Messages from '@/components/Messages';
+import VideoCallState from '@/components/VideoCallState';
 import { db } from '@/lib/db';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { Video } from 'lucide-react';
@@ -57,11 +58,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
               </p>
             </div>
           </div>
-          <div className='mr-6 md:mr-0'>
-            <Link href={`/dashboard/call/${id}`}>
-              <Video className='size-7 text-orange-600 ' />
-            </Link>
-          </div>
+          <VideoCallState id={id} sessionUserId={sessionUser.id} />
         </div>
         <div className='md:hidden'>
           <Link href={'/dashboard'}>

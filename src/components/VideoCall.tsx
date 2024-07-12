@@ -2,9 +2,8 @@
 
 import { Camera, CameraOff, Mic, MicOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
 import Pusher, { Members, PresenceChannel } from 'pusher-js';
-import { pusherClient } from '@/lib/pusher';
+import { useEffect, useRef, useState } from 'react';
 
 const ICE_SERVERS = {
   iceServers: [
@@ -83,7 +82,6 @@ const VideoCall = ({
     );
 
     channelRef.current.bind('client-ready', () => {
-      console.log('client ready initiating call!');
       initiateCall();
     });
 
@@ -105,6 +103,31 @@ const VideoCall = ({
       }
     );
 
+    channelRef.current.bind('client-callend', () => {
+      // Clean up resources and end call
+      if (yourVideo.current!.srcObject) {
+        (yourVideo.current!.srcObject as MediaStream)
+          .getTracks()
+          .forEach((track) => track.stop());
+      }
+
+      if (partnerVideo.current!.srcObject) {
+        (partnerVideo.current!.srcObject as MediaStream)
+          .getTracks()
+          .forEach((track) => track.stop());
+      }
+
+      if (rtcConnection.current) {
+        rtcConnection.current.ontrack = null;
+        rtcConnection.current.onicecandidate = null;
+        rtcConnection.current.close();
+        rtcConnection.current = null;
+      }
+
+      // Redirect or handle UI state as needed
+      router.push(`/dashboard/chat/${callId}`);
+    });
+
     return () => {
       if (pusherRef.current)
         pusherRef.current.unsubscribe(`presence-${callId}`);
@@ -125,9 +148,7 @@ const VideoCall = ({
         };
 
         if (!host.current) {
-          console.log('triggering client ready');
           channelRef.current!.trigger('client-ready', {});
-          channelRef.current!.trigger('client-callinit', { initiator: you });
         }
       })
       .catch((err) => {
@@ -215,6 +236,7 @@ const VideoCall = ({
       }
     });
   };
+
   const leaveRoom = () => {
     if (yourVideo.current!.srcObject) {
       (yourVideo.current!.srcObject as MediaStream)
@@ -234,6 +256,8 @@ const VideoCall = ({
       rtcConnection.current.close();
       rtcConnection.current = null;
     }
+
+    channelRef.current!.trigger('client-callend', {});
 
     router.push(`/dashboard/chat/${callId}`);
   };

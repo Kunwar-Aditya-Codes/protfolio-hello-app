@@ -23,11 +23,7 @@ const Messages = ({
   const [messages, setMessages] = useState<Message[]>(initialMessages);
 
   useEffect(() => {
-    const presenceChannelKey = `presence-${chatId}`;
     const chatChannelKey = toPusherKey(`chat:${chatId}`);
-
-    // Subscribe to the presence channel
-    pusherClient.subscribe(presenceChannelKey);
 
     // Subscribe to the chat channel
     pusherClient.subscribe(chatChannelKey);
@@ -37,19 +33,9 @@ const Messages = ({
     };
     pusherClient.bind('incoming_message', messageHandler);
 
-    const callInitHandler = (data: { initiator: User }) => {
-      if (data.initiator.id !== sessionUserId) {
-        // TODO: add notification here!
-        console.log(data.initiator);
-      }
-    };
-    pusherClient.bind('client-callinit', callInitHandler);
-
     return () => {
-      pusherClient.unsubscribe(presenceChannelKey);
       pusherClient.unsubscribe(chatChannelKey);
       pusherClient.unbind('incoming_message', messageHandler);
-      pusherClient.unbind('client-callinit', callInitHandler);
     };
   }, [chatId, sessionUserId]);
 
