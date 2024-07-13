@@ -1,5 +1,6 @@
 'use client';
 
+// TODO: Efficient code
 import { Camera, CameraOff, Mic, MicOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Pusher, { Members, PresenceChannel } from 'pusher-js';
@@ -7,15 +8,9 @@ import { useEffect, useRef, useState } from 'react';
 
 const ICE_SERVERS = {
   iceServers: [
-    {
-      urls: 'stun:openrelay.metered.ca:80',
-    },
-    {
-      urls: 'stun:stun.l.google.com:19302',
-    },
-    {
-      urls: 'stun:stun2.l.google.com:19302',
-    },
+    { urls: 'stun:openrelay.metered.ca:80' },
+    { urls: 'stun:stun.l.google.com:19302' },
+    { urls: 'stun:stun2.l.google.com:19302' },
   ],
 };
 
@@ -88,7 +83,6 @@ const VideoCall = ({
     channelRef.current.bind(
       'client-answer',
       (answer: RTCSessionDescriptionInit) => {
-        // answer is sent by non-host, so only host should handle it
         if (host.current) {
           handleAnswerReceived(answer as RTCSessionDescriptionInit);
         }
@@ -97,36 +91,10 @@ const VideoCall = ({
 
     channelRef.current.bind(
       'client-ice-candidate',
-      (iceCandidate: RTCIceCandidate) => {
-        // answer is sent by non-host, so only host should handle it
-        handlerNewIceCandidateMsg(iceCandidate);
-      }
+      (iceCandidate: RTCIceCandidate) => handlerNewIceCandidateMsg(iceCandidate)
     );
 
-    channelRef.current.bind('client-callend', () => {
-      // Clean up resources and end call
-      if (yourVideo.current!.srcObject) {
-        (yourVideo.current!.srcObject as MediaStream)
-          .getTracks()
-          .forEach((track) => track.stop());
-      }
-
-      if (partnerVideo.current!.srcObject) {
-        (partnerVideo.current!.srcObject as MediaStream)
-          .getTracks()
-          .forEach((track) => track.stop());
-      }
-
-      if (rtcConnection.current) {
-        rtcConnection.current.ontrack = null;
-        rtcConnection.current.onicecandidate = null;
-        rtcConnection.current.close();
-        rtcConnection.current = null;
-      }
-
-      // Redirect or handle UI state as needed
-      router.push(`/dashboard/chat/${callId}`);
-    });
+    channelRef.current.bind('client-callend', endCall);
 
     return () => {
       if (pusherRef.current)
@@ -237,7 +205,7 @@ const VideoCall = ({
     });
   };
 
-  const leaveRoom = () => {
+  const endCall = () => {
     if (yourVideo.current!.srcObject) {
       (yourVideo.current!.srcObject as MediaStream)
         .getTracks()
@@ -283,46 +251,50 @@ const VideoCall = ({
   };
 
   return (
-    <div className='h-full flex flex-col'>
+    <div className='h-full flex flex-col px-12'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-x-6'>
           <button onClick={toggleMic} type='button'>
             {micActive ? (
               <Mic className='size-12 text-white hover:text-orange-600 bg-white/5 p-3 rounded-full' />
             ) : (
-              <MicOff className='size-6 text-white hover:text-orange-600' />
+              <MicOff className='size-12  text-black hover:text-orange-600 bg-white/85  p-3 rounded-full' />
             )}
           </button>
           <button onClick={toggleCamera} type='button'>
             {cameraActive ? (
               <Camera className='size-12 text-white hover:text-orange-600 bg-white/5 p-3 rounded-full' />
             ) : (
-              <CameraOff className='size-6  text-white hover:text-orange-600' />
+              <CameraOff className='size-12  text-black hover:text-orange-600 bg-white/85  p-3 rounded-full' />
             )}
           </button>
         </div>
-        <button
-          onClick={leaveRoom}
-          className='bg-red-600 px-3.5 py-2 rounded-lg'
-        >
+        <button onClick={endCall} className='bg-red-600 px-3.5 py-2 rounded-lg'>
           Leave
         </button>
       </div>
-      <div className=' grow flex flex-col md:flex-row mt-4 md:mt-0 md:gap-y-0 gap-y-6 md:gap-x-4'>
-        <div className='flex-[0.5] flex flex-col  justify-center'>
-          <div className='border min-h-[25rem] h-auto rounded-xl relative p-1 object-cover'>
-            <video autoPlay ref={yourVideo} muted className='rounded-xl' />
 
+      {/* Video Call Space */}
+      <div className=' grow  flex flex-col justify-around md:items-center  mt-8  gap-y-2 '>
+        <div className='flex items-center justify-end'>
+          <div className='relative border h-auto max-w-[45rem] rounded-xl p-2'>
+            <video autoPlay ref={partnerVideo} className='rounded-xl' />
             <span className='absolute top-0 left-0 bg-orange-600 px-2 text-xs py-1 rounded-tl-xl'>
-              {you.username}
+              {partner.username}
             </span>
           </div>
         </div>
-        <div className='flex-[0.5] flex flex-col justify-center'>
-          <div className='relative border h-full md:h-[25rem] rounded-xl'>
-            <video autoPlay ref={partnerVideo} />
+
+        <div className=' flex items-center justify-center'>
+          <div className='border max-w-[25rem] h-auto rounded-xl relative p-2 '>
+            <video
+              autoPlay
+              ref={yourVideo}
+              muted
+              className='rounded-xl w-[15rem] md:[w-20rem]'
+            />
             <span className='absolute top-0 left-0 bg-orange-600 px-2 text-xs py-1 rounded-tl-xl'>
-              {partner.username}
+              {you.username}
             </span>
           </div>
         </div>
