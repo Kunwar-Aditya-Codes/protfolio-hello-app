@@ -14,7 +14,7 @@ import Dropzone, { FileRejection } from 'react-dropzone';
 import { Progress } from './ui/progress';
 import { useToast } from './ui/use-toast';
 import { useMutation } from '@tanstack/react-query';
-import { updateProfileImage } from '@/app/dashboard/settings/actions';
+import { updateProfileImage } from '@/app/dashboard/(chat)/settings/actions';
 
 const ProfileImage = ({ user }: { user: User }) => {
   const { toast } = useToast();
@@ -74,7 +74,7 @@ const ProfileImage = ({ user }: { user: User }) => {
         <DialogTrigger>
           <Camera className='size-7 absolute bottom-0 left-3 fill-black text-white' />
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className='dark:bg-zinc-950'>
           <DialogHeader>
             <DialogTitle className='text-xl'>Update Profile Image</DialogTitle>
           </DialogHeader>

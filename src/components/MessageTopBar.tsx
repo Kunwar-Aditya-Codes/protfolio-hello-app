@@ -83,7 +83,7 @@ const MessageTopBar = ({
   };
 
   return (
-    <div className='flex items-center justify-between w-full'>
+    <div className='flex items-center justify-between w-full '>
       <div className='flex items-center gap-x-2.5'>
         <img
           src={chatPartner.profileImage}
@@ -92,13 +92,15 @@ const MessageTopBar = ({
         />
         <div>
           <div className='flex items-center gap-x-2'>
-            <h1 className='text-base tracking-tight text-zinc-800 font-medium'>
+            <h1 className='text-base tracking-tight text-zinc-800 dark:text-zinc-300 font-medium'>
               {chatPartner.username}
             </h1>
             {isUserOnline ? (
               <div className='flex items-center'>
                 <Circle className='mr-1 text-green-600 fill-green-600 size-2.5' />
-                <span className='text-xs  md:hidden'>Online</span>
+                <span className='text-xs md:hidden dark:text-zinc-200'>
+                  Online
+                </span>
               </div>
             ) : null}
           </div>

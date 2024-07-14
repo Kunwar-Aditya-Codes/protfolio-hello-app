@@ -100,14 +100,14 @@ const ChatInput = ({
   };
 
   return (
-    <div className='px-6 py-4 bg-white'>
+    <div className='px-6 py-4 bg-white dark:bg-zinc-950 dark:border-t dark:border-t-zinc-900/25'>
       {chatImageUrl && chatImageUrl !== undefined ? (
         <img
           src={chatImageUrl}
           className='w-[15%] border-zinc-300 mb-2 border p-2 rounded-xl'
         />
       ) : null}
-      <div className='relative focus-within:outline-2 bg-zinc-100 focus-within:bg-zinc-50 border rounded-lg px-2 py-3.5 focus-within:border-orange-600 focus-within:border-2'>
+      <div className='relative focus-within:outline-2 bg-zinc-100 dark:bg-zinc-950 focus-within:bg-zinc-50 border rounded-lg px-2 py-3.5 focus-within:border-orange-600 focus-within:border-2'>
         <TextareaAutosize
           ref={textInputRef}
           rows={1}
@@ -139,9 +139,9 @@ const ChatInput = ({
               type='button'
               onClick={() => setIsDropZoneOpen(true)}
               variant={'outline'}
-              className='border-orange-600 bg-transparent'
+              className='border-orange-600 bg-transparent dark:bg-zinc-900 dark:border-none '
             >
-              <Plus className='size-5 text-orange-600' />
+              <Plus className='size-5 text-orange-600 dark:text-white' />
             </Button>
           </div>
           <div className='flex-shrink-0'>

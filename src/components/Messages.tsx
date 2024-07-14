@@ -46,7 +46,7 @@ const Messages = ({
 
   return (
     <div
-      className='overflow-y-scroll h-[29rem] md:h-[34rem]  flex  flex-col-reverse px-6 '
+      className='overflow-y-scroll h-[29rem] md:h-[34rem] flex flex-col-reverse px-6 '
       id='message'
     >
       <div ref={scrollDownRef} />
@@ -57,8 +57,8 @@ const Messages = ({
           messages[index - 1]?.senderId === messages[index].senderId;
 
         return (
-          <div className='pb-4 ' key={`${message.id}-${message.timestamp}`}>
-            <div className=''>
+          <div className='pb-4 pt-6' key={`${message.id}-${message.timestamp}`}>
+            <div>
               <div
                 className={cn('flex items-end mb-2 w-full ', {
                   'justify-end pr-6': isCurrentUser,
@@ -98,7 +98,8 @@ const Messages = ({
                       ' rounded-full md:text-lg font-light justify-between shadow-md px-5 flex items-baseline  py-1.5 md:py-2.5',
                       {
                         'bg-orange-600 text-white': isCurrentUser,
-                        'bg-white text-zinc-800': !isCurrentUser,
+                        'bg-white text-zinc-800 dark:bg-zinc-900 dark:text-zinc-300':
+                          !isCurrentUser,
                         'rounded-br-none':
                           !hasNextMessageFromSameUser && isCurrentUser,
                         'rounded-bl-none':
@@ -110,7 +111,9 @@ const Messages = ({
                     <span
                       className={cn(
                         'ml-4 text-xs',
-                        isCurrentUser ? 'text-zinc-100' : 'text-zinc-600'
+                        isCurrentUser
+                          ? 'text-zinc-100'
+                          : 'text-zinc-600 dark:text-zinc-400'
                       )}
                     >
                       {formatTimestamp(message.timestamp)}

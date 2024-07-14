@@ -60,7 +60,7 @@ export default async function Home() {
   const sessionUser = await getUser();
 
   return (
-    <main className='bg-orange-600/5 overflow-x-hidden'>
+    <main className='bg-orange-600/5 dark:bg-orange-950 overflow-x-hidden'>
       <section className='h-screen flex flex-col w-full'>
         {/* Navbar */}
         <nav className='max-w-7xl w-full mx-auto p-6 flex items-center justify-between'>

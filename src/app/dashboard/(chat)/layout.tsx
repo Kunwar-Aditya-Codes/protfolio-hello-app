@@ -2,6 +2,7 @@ import AddFriend from '@/components/AddFriend';
 import ChatList from '@/components/ChatList';
 import FriendRequest from '@/components/FriendRequest';
 import MobileNavigation from '@/components/MobileNavigation';
+import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { db } from '@/lib/db';
 import { cn } from '@/lib/utils';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
@@ -31,11 +32,11 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <div className='relative flex h-screen bg-zinc-50  overflow-hidden'>
+    <div className='relative flex h-screen bg-zinc-50 dark:bg-zinc-950  overflow-hidden'>
       {/* Sidebar */}
       <MobileNavigation />
       <>
-        <div className='hidden flex-0 md:flex-[0.05] md:flex flex-col border-r-2 border-zinc-100'>
+        <div className='hidden flex-0 md:flex-[0.05] md:flex flex-col border-r-2 border-zinc-100 dark:border-zinc-900/30'>
           <div className='flex items-center justify-center p-3'>
             <Link href={'/dashboard'}>
               <h1
@@ -52,26 +53,27 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
           <div className='grow flex flex-col gap-y-8 items-center mt-8'>
             <AddFriend />
             <FriendRequest />
+            <ThemeSwitcher />
             <Link href={'/dashboard/settings'}>
-              <Settings className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800' />
+              <Settings className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-zinc-400' />
             </Link>
           </div>
 
           <div className='flex  items-center justify-center p-4'>
             <Link
               href={'/api/auth/logout'}
-              className='hover:bg-zinc-100 hover:shadow rounded-lg p-3'
+              className='hover:bg-zinc-100 hover:shadow dark:hover:bg-zinc-800  rounded-lg p-3'
             >
-              <ArrowLeftFromLine className='size-5 text-zinc-600  ' />
+              <ArrowLeftFromLine className='size-5 text-zinc-600 dark:text-zinc-300  ' />
             </Link>
           </div>
         </div>
       </>
       {/* Chats */}
       <>
-        <div className='hidden md:block md:flex-[0.2] md:h-full border-r'>
+        <div className='hidden md:block md:flex-[0.2] md:h-full border-r dark:border-zinc-900/30'>
           <div className=' p-6'>
-            <h2 className='font-bold text-2xl tracking-tighter text-zinc-700'>
+            <h2 className='font-bold text-2xl tracking-tighter text-zinc-700 dark:text-zinc-400'>
               Messages
             </h2>
           </div>
@@ -85,7 +87,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
       </>
 
       {/* Messsage */}
-      <div className='flex-1 grow mt-[4.2rem] md:mt-0 bg-white  w-full md:relative md:flex-[0.75]'>
+      <div className='flex-1 grow mt-[4.2rem] md:mt-0 bg-white dark:bg-zinc-950 w-full md:relative md:flex-[0.75]'>
         {children}
       </div>
     </div>

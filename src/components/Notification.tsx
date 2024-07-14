@@ -55,7 +55,7 @@ const Notification = ({
 
   return (
     <DialogTrigger className='relative'>
-      <Bell className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800' />
+      <Bell className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-zinc-400' />
       <div className='absolute -top-1 left-4'>
         {unseenRequestCount > 0 ? (
           <p className='bg-orange-500 size-4 text-xs rounded-full text-white font-medium '>

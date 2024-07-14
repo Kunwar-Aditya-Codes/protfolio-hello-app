@@ -34,9 +34,10 @@ const Page = async () => {
 
   return (
     <div className='md:h-full'>
+      {/* Mobile View */}
       <div className='md:hidden'>
         <div className=' p-6'>
-          <h2 className='font-bold text-2xl tracking-tighter text-zinc-700'>
+          <h2 className='font-bold text-2xl tracking-tighter text-zinc-700 dark:text-zinc-300'>
             Messages
           </h2>
         </div>
@@ -44,11 +45,13 @@ const Page = async () => {
           <ChatList friendsList={friends} sessionUserId={sessionUser.id} />
         </div>
       </div>
-      <div className='hidden md:block h-full p-10 md:p-36 bg-zinc-100 '>
-        <h1 className='text-4xl font-semibold text-zinc-700'>Recent Chats</h1>
+      <div className='hidden md:block h-full p-10 md:p-36 bg-zinc-100 dark:bg-zinc-900 '>
+        <h1 className='text-4xl font-semibold text-zinc-700 dark:text-zinc-300'>
+          Recent Chats
+        </h1>
         <div className='mt-8 max-w-5xl'>
           {topChats.length === 0 ? (
-            <p>No recent chats!</p>
+            <p className='dark:text-zinc-200'>No recent chats!</p>
           ) : (
             topChats.map((friend) => (
               <Link
@@ -58,7 +61,7 @@ const Page = async () => {
                   friend?.id!
                 )}`}
               >
-                <div className='shadow-sm hover:shadow bg-white rounded-lg  p-6 flex items-center justify-between'>
+                <div className='shadow-sm hover:shadow bg-white dark:bg-zinc-950 rounded-lg  p-6 flex items-center justify-between'>
                   <div className='flex items-start gap-x-2'>
                     <div className=''>
                       <img
@@ -68,7 +71,7 @@ const Page = async () => {
                       />
                     </div>
                     <div className='mt-1'>
-                      <p className='text-xl font-medium text-zinc-800'>
+                      <p className='text-xl font-medium text-zinc-800 dark:text-zinc-300'>
                         {friend?.username}
                       </p>
                       <p className='mt-2 text-zinc-500 font-medium'>

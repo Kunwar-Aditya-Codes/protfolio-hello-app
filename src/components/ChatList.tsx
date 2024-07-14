@@ -60,7 +60,7 @@ const ChatList = ({
   }, [pathName]);
 
   return (
-    <div className='h-full '>
+    <div className='h-full'>
       {friends.length > 0 ? (
         <>
           {friends.sort().map((friend) => {
@@ -75,7 +75,7 @@ const ChatList = ({
                 )}`}
                 key={friend.id}
               >
-                <div className='px-6 pt-4  hover:bg-zinc-100/60'>
+                <div className='px-6 pt-4 dark:hover:bg-zinc-900  hover:bg-zinc-100/60'>
                   <div className='flex items-center space-x-2.5'>
                     <img
                       src={friend.profileImage}
@@ -83,7 +83,7 @@ const ChatList = ({
                       className='size-[2.7rem] rounded-full'
                     />
                     <div className='w-full flex items-center gap-x-2'>
-                      <p className='font-bold text-lg text-zinc-600'>
+                      <p className='font-bold text-lg text-zinc-600 dark:text-zinc-300'>
                         {friend.username}
                       </p>
                       {unseenMessagesCount > 0 ? (
@@ -93,7 +93,7 @@ const ChatList = ({
                       ) : null}
                     </div>
                   </div>
-                  <Separator className='mt-3 border-zinc-100 border' />
+                  <Separator className='mt-3 border-zinc-100 dark:border-zinc-900 border' />
                 </div>
               </Link>
             );

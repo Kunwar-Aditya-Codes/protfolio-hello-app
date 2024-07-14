@@ -39,8 +39,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const initialMessages = await getMessages(id);
 
   return (
-    <div className='h-full'>
-      <div className=' h-[4rem] border-b drop-shadow-sm flex items-center justify-between px-6'>
+    <div className='h-full '>
+      <div className='h-[4rem] border-b dark:border-b-zinc-900/40 bg-transparent   drop-shadow-sm flex items-center justify-between px-6'>
         <MessageTopBar
           id={id}
           sessionUserId={sessionUser.id}
@@ -48,13 +48,13 @@ const Page = async ({ params }: { params: { id: string } }) => {
         />
         <div className='md:hidden'>
           <Link href={'/dashboard'}>
-            <span className='underline underline-offset-1 text-sm text-zinc-700'>
+            <span className='underline underline-offset-1 text-sm text-zinc-700 dark:text-zinc-400'>
               Back
             </span>
           </Link>
         </div>
       </div>
-      <div className=' bg-zinc-100'>
+      <div className=' bg-zinc-100 dark:bg-zinc-950'>
         {/* Messages */}
         <Messages
           chatId={id}

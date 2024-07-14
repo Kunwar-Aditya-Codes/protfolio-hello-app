@@ -21,6 +21,7 @@ interface RequestListProps {
 const RequestList = ({ incomingRequests, sessionUserId }: RequestListProps) => {
   const [friendRequests, setFriendRequests] =
     useState<IncomingFriendRequest[]>(incomingRequests);
+
   const { toast } = useToast();
 
   useEffect(() => {
@@ -107,7 +108,7 @@ const RequestList = ({ incomingRequests, sessionUserId }: RequestListProps) => {
   };
 
   return (
-    <DialogContent className='px-4'>
+    <DialogContent className='px-4 dark:bg-zinc-950'>
       <DialogHeader>
         <DialogTitle className='text-xl'>Friend Requests</DialogTitle>
       </DialogHeader>
@@ -118,10 +119,12 @@ const RequestList = ({ incomingRequests, sessionUserId }: RequestListProps) => {
             className='shadow-sm p-2 border-b h-fit flex items-center justify-between'
           >
             <div>
-              <p className='text-zinc-950  text-sm font-medium'>
+              <p className='text-zinc-950 dark:text-zinc-200  text-sm font-medium'>
                 {sender.senderName}
               </p>
-              <p className='text-sm text-zinc-700'>{sender.senderEmail}</p>
+              <p className='text-sm text-zinc-700 dark:text-zinc-400'>
+                {sender.senderEmail}
+              </p>
             </div>
             <div className='flex items-center gap-x-4'>
               <button
