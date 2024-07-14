@@ -97,7 +97,7 @@ const MessageTopBar = ({
             </h1>
             {isUserOnline ? (
               <div className='flex items-center'>
-                <Circle className='mr-1 text-green-600 fill-green-600 size-2.5 md:animate-pulse' />
+                <Circle className='mr-1 text-green-600 fill-green-600 size-2.5' />
                 <span className='text-xs  md:hidden'>Online</span>
               </div>
             ) : null}

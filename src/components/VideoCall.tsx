@@ -193,7 +193,9 @@ const VideoCall = ({
       .catch((error) => console.log(error));
   };
   const handleTrackEvent = (event: RTCTrackEvent) => {
-    partnerVideo.current!.srcObject = event.streams[0];
+    if (partnerVideo.current) {
+      partnerVideo.current.srcObject = event.streams[0];
+    }
   };
 
   const toggleMediaStream = (type: 'video' | 'audio', state: boolean) => {
@@ -274,9 +276,9 @@ const VideoCall = ({
       </div>
 
       {/* Video Call Space */}
-      <div className=' grow  flex flex-col justify-around md:items-center  mt-8  gap-y-2 '>
+      <div className='grow flex flex-col justify-evenly items-center mt-8'>
         <div className='flex items-center justify-end'>
-          <div className='relative border h-auto max-w-[45rem] rounded-xl p-2'>
+          <div className='relative border h-auto max-w-[45rem] min-w-[25rem]  sm:min-w-[30rem] min-h-[15rem] rounded-xl p-2'>
             <video autoPlay ref={partnerVideo} className='rounded-xl' />
             <span className='absolute top-0 left-0 bg-orange-600 px-2 text-xs py-1 rounded-tl-xl'>
               {partner.username}
@@ -284,7 +286,7 @@ const VideoCall = ({
           </div>
         </div>
 
-        <div className=' flex items-center justify-center'>
+        <div className='flex items-center justify-center'>
           <div className='border max-w-[25rem] h-auto rounded-xl relative p-2 '>
             <video
               autoPlay
