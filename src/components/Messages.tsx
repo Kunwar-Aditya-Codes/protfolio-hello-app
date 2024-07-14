@@ -25,7 +25,6 @@ const Messages = ({
   useEffect(() => {
     const chatChannelKey = toPusherKey(`chat:${chatId}`);
 
-    // Subscribe to the chat channel
     pusherClient.subscribe(chatChannelKey);
 
     const messageHandler = (message: Message) => {

@@ -1,6 +1,5 @@
 'use client';
 
-// TODO: Efficient code
 import { Camera, CameraOff, Mic, MicOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Pusher, { Members, PresenceChannel } from 'pusher-js';

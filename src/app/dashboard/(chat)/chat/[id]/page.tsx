@@ -1,9 +1,8 @@
 import ChatInput from '@/components/ChatInput';
 import Messages from '@/components/Messages';
-import VideoCallState from '@/components/VideoCallState';
+import MessageTopBar from '@/components/MessageTopBar';
 import { db } from '@/lib/db';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import { Video } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -42,24 +41,11 @@ const Page = async ({ params }: { params: { id: string } }) => {
   return (
     <div className='h-full'>
       <div className=' h-[4rem] border-b drop-shadow-sm flex items-center justify-between px-6'>
-        <div className='flex items-center justify-between w-full'>
-          <div className='flex items-center gap-x-2.5'>
-            <img
-              src={chatPartner.profileImage}
-              alt='profile-avatar'
-              className='size-[2.5rem] rounded-full'
-            />
-            <div>
-              <h1 className='text-base tracking-tight text-zinc-800 font-medium'>
-                {chatPartner.username}
-              </h1>
-              <p className='hidden md:block text-xs font-medium text-muted-foreground'>
-                {chatPartner.email}
-              </p>
-            </div>
-          </div>
-          <VideoCallState id={id} sessionUserId={sessionUser.id} />
-        </div>
+        <MessageTopBar
+          id={id}
+          sessionUserId={sessionUser.id}
+          chatPartner={chatPartner}
+        />
         <div className='md:hidden'>
           <Link href={'/dashboard'}>
             <span className='underline underline-offset-1 text-sm text-zinc-700'>
