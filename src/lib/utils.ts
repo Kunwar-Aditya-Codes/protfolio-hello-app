@@ -35,6 +35,6 @@ export function constructMetadata({
       images: [{ url: image }],
     },
     icons,
-    metadataBase: new URL('https://caseforge.vercel.app/'),
+    metadataBase: new URL('https://hello-app-one.vercel.app/'),
   };
 }
