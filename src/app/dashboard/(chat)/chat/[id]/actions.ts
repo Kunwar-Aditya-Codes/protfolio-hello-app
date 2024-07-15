@@ -5,6 +5,7 @@ import { pusherServer } from '@/lib/pusher';
 import { toPusherKey } from '@/lib/utils';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { nanoid } from 'nanoid';
+import { revalidatePath } from 'next/cache';
 
 export const sendMessage = async ({
   text,
@@ -60,6 +61,8 @@ export const sendMessage = async ({
     score: timestamp,
     member: message,
   });
+
+  revalidatePath(`/dashboard/chat/${chatId}`);
 
   return { success: true };
 };
