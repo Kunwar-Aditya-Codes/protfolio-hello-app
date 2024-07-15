@@ -52,7 +52,7 @@ export const addFriendToChat = async ({ email }: { email: string }) => {
   // send friend request
   await db.sadd(`user:${idToAdd}:incoming_friend_request`, sessionUser.id);
 
-  // revalidatePath('/dashboard');
+  revalidatePath('/dashboard', 'layout');
 
   return { success: true };
 };
@@ -125,6 +125,8 @@ export const rejectFriendRequest = async ({
     'reject_friend',
     {}
   );
+
+  revalidatePath('/dashboard', 'layout');
 
   return { success: true, senderId: idToDeny };
 };

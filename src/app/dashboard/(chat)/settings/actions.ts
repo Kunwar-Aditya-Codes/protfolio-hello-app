@@ -2,6 +2,7 @@
 
 import { db } from '@/lib/db';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import { revalidatePath } from 'next/cache';
 
 export const updateProfileImage = async ({
   profileImageUrl,
@@ -18,6 +19,8 @@ export const updateProfileImage = async ({
     ...user,
     profileImage: profileImageUrl,
   });
+
+  revalidatePath('/dashboard/settings');
 
   return { success: true };
 };
