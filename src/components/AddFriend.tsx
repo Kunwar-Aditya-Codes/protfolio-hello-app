@@ -17,12 +17,17 @@ import { addFriendToChat } from '@/app/dashboard/(chat)/actions';
 import { useToast } from './ui/use-toast';
 import { PlusCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 type FormData = z.infer<typeof addFriendValidator>;
 
 const AddFriend = () => {
   const { toast } = useToast();
-  const router = useRouter();
 
   const { register, handleSubmit, reset } = useForm<FormData>({
     resolver: zodResolver(addFriendValidator),
@@ -41,7 +46,6 @@ const AddFriend = () => {
           description: 'Your friend request has been sent successfully!',
           duration: 1500,
         });
-        // router.refresh();
       }
     },
     onError: (error) => {
@@ -59,9 +63,19 @@ const AddFriend = () => {
   return (
     <div>
       <Dialog>
-        <DialogTrigger>
-          <PlusCircle className='size-6 md:size-7 text-zinc-500 dark:text-zinc-300 dark:hover:text-zinc-400 hover:text-zinc-800' />
-        </DialogTrigger>
+        <TooltipProvider delayDuration={300}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <DialogTrigger>
+                <PlusCircle className='size-6 md:size-7 text-zinc-500 dark:text-zinc-300 dark:hover:text-zinc-400 hover:text-zinc-800' />
+              </DialogTrigger>
+            </TooltipTrigger>
+            <TooltipContent side={'right'}>
+              <p>Add friend</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
         <DialogContent className='dark:bg-zinc-950'>
           <DialogHeader>
             <DialogTitle className='text-xl'>Add Friend</DialogTitle>

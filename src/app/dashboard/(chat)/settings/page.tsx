@@ -21,7 +21,7 @@ const Page = async () => {
           </p>
         </div>
 
-        <div className='mt-6 flex h-[8rem]'>
+        <div className='mt-6 flex flex-col lg:flex-row lg:h-[8rem]'>
           <ProfileImage user={user} />
 
           <div className='flex-[0.85] flex flex-col justify-between w-full h-full py-2'>
@@ -30,7 +30,7 @@ const Page = async () => {
                 {user.username}
               </h1>
             </div>
-            <div>
+            <div className='mt-4 lg:mt-0'>
               <div className='flex flex-col gap-1'>
                 <span className='text-xs tracking-wide text-zinc-800 dark:text-zinc-400   bg-zinc-200 dark:bg-zinc-950 w-fit px-1.5 py-1 rounded-sm'>
                   Email

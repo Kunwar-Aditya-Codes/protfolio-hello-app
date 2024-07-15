@@ -123,7 +123,7 @@ const MessageTopBar = ({
               <Video className='size-7 text-orange-700 animate-pulse rotate-180' />
             </DialogTrigger>
           ) : null}
-          <DialogContent className='py-16'>
+          <DialogContent className='py-16 dark:bg-zinc-950 dark:border-zinc-900'>
             <DialogHeader>
               <DialogTitle className='text-center text-2xl'>
                 Incoming Video Call

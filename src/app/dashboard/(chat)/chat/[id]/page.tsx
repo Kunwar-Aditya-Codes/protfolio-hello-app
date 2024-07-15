@@ -39,8 +39,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const initialMessages = await getMessages(id);
 
   return (
-    <div className='h-full '>
-      <div className='h-[4rem] border-b dark:border-b-zinc-900/40 bg-transparent   drop-shadow-sm flex items-center justify-between px-6'>
+    <div className='h-full'>
+      <div className='h-[4rem] border-b dark:border-b-zinc-900/40 dark:bg-zinc-950 drop-shadow-sm flex items-center justify-between px-6'>
         <MessageTopBar
           id={id}
           sessionUserId={sessionUser.id}
@@ -54,7 +54,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
           </Link>
         </div>
       </div>
-      <div className=' bg-zinc-100 dark:bg-zinc-950'>
+      <div className='bg-zinc-100 dark:bg-zinc-950 h-full'>
         {/* Messages */}
         <Messages
           chatId={id}

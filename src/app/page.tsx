@@ -61,7 +61,7 @@ export default async function Home() {
 
   return (
     <main className='bg-orange-600/5 dark:bg-orange-950 overflow-x-hidden'>
-      <section className='h-screen flex flex-col w-full'>
+      <section className='h-[100dvh] flex flex-col w-full'>
         {/* Navbar */}
         <nav className='max-w-7xl w-full mx-auto p-6 flex items-center justify-between'>
           <div>

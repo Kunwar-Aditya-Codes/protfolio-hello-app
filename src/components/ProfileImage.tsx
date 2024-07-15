@@ -72,7 +72,7 @@ const ProfileImage = ({ user }: { user: User }) => {
       />
       <Dialog>
         <DialogTrigger>
-          <Camera className='size-7 absolute bottom-0 left-3 fill-black text-white' />
+          <Camera className='size-7 absolute bottom-4 lg:bottom-0 left-3 fill-black text-white' />
         </DialogTrigger>
         <DialogContent className='dark:bg-zinc-950'>
           <DialogHeader>

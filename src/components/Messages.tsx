@@ -59,18 +59,20 @@ const Messages = ({
         return (
           <div className='pb-4 pt-6' key={`${message.id}-${message.timestamp}`}>
             <div>
-              <div
-                className={cn('flex items-end mb-2 w-full ', {
-                  'justify-end pr-6': isCurrentUser,
-                  'ml-6': !isCurrentUser,
-                })}
-              >
-                <img
-                  src={message.chatImageUrl}
-                  alt=''
-                  className='w-[45%] md:w-[30%] lg:w-[20%]'
-                />
-              </div>
+              {message.chatImageUrl ? (
+                <div
+                  className={cn('flex items-end mb-2 w-full ', {
+                    'justify-end pr-6': isCurrentUser,
+                    'ml-6': !isCurrentUser,
+                  })}
+                >
+                  <img
+                    src={message.chatImageUrl}
+                    alt={'attached-image'}
+                    className='w-[45%] md:w-[30%] lg:w-[20%] rounded-lg shadow-md bg-white dark:bg-zinc-900/50'
+                  />
+                </div>
+              ) : null}
 
               <div
                 className={cn('flex items-end', {

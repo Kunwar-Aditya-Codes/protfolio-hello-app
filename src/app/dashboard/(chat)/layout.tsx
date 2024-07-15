@@ -3,6 +3,13 @@ import ChatList from '@/components/ChatList';
 import FriendRequest from '@/components/FriendRequest';
 import MobileNavigation from '@/components/MobileNavigation';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
+import { DialogTrigger } from '@/components/ui/dialog';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { db } from '@/lib/db';
 import { cn } from '@/lib/utils';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
@@ -32,7 +39,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <div className='relative flex h-screen bg-zinc-50 dark:bg-zinc-950  overflow-hidden'>
+    <div className='relative flex h-[100dvh] bg-zinc-50 dark:bg-zinc-950  overflow-hidden'>
       {/* Sidebar */}
       <MobileNavigation />
       <>
@@ -50,22 +57,32 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
             </Link>
           </div>
 
-          <div className='grow flex flex-col gap-y-8 items-center mt-8'>
+          <div className='grow flex flex-col gap-y-12 items-center mt-8'>
             <AddFriend />
             <FriendRequest />
-            <ThemeSwitcher />
             <Link href={'/dashboard/settings'}>
               <Settings className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-zinc-400' />
             </Link>
           </div>
 
-          <div className='flex  items-center justify-center p-4'>
-            <Link
-              href={'/api/auth/logout'}
-              className='hover:bg-zinc-100 hover:shadow dark:hover:bg-zinc-800  rounded-lg p-3'
-            >
-              <ArrowLeftFromLine className='size-5 text-zinc-600 dark:text-zinc-300  ' />
-            </Link>
+          <div className='flex flex-col gap-y-6 items-center justify-center p-4'>
+            <ThemeSwitcher />
+
+            <TooltipProvider delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={'/api/auth/logout'}
+                    className='hover:bg-zinc-100 hover:shadow dark:hover:bg-zinc-800  rounded-lg p-3'
+                  >
+                    <ArrowLeftFromLine className='size-5 text-zinc-600 dark:text-zinc-300  ' />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side={'right'}>
+                  <p>Logout</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </>

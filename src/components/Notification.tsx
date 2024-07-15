@@ -5,6 +5,12 @@ import { DialogTrigger } from './ui/dialog';
 import { useEffect, useState } from 'react';
 import { pusherClient } from '@/lib/pusher';
 import { toPusherKey } from '@/lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './ui/tooltip';
 
 const Notification = ({
   sessionUserId,
@@ -54,16 +60,25 @@ const Notification = ({
   }, []);
 
   return (
-    <DialogTrigger className='relative'>
-      <Bell className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-zinc-400' />
-      <div className='absolute -top-1 left-4'>
-        {unseenRequestCount > 0 ? (
-          <p className='bg-orange-500 size-4 text-xs rounded-full text-white font-medium '>
-            {unseenRequestCount}
-          </p>
-        ) : null}
-      </div>
-    </DialogTrigger>
+    <TooltipProvider delayDuration={300}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger className='relative'>
+            <Bell className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-zinc-400' />
+            <div className='absolute -top-1 left-4'>
+              {unseenRequestCount > 0 ? (
+                <p className='bg-orange-500 size-4 text-xs rounded-full text-white font-medium '>
+                  {unseenRequestCount}
+                </p>
+              ) : null}
+            </div>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent side={'right'}>
+          <p>Notifications</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 export default Notification;

@@ -33,9 +33,9 @@ const ThemeSwitcher = () => {
     <div>
       <button onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? (
-          <Moon className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-zinc-400' />
+          <Moon className='size-6  text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-zinc-400' />
         ) : (
-          <Sun className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800' />
+          <Sun className='size-6  text-zinc-500 hover:text-zinc-800' />
         )}
       </button>
     </div>

@@ -102,10 +102,9 @@ const ChatInput = ({
   return (
     <div className='px-6 py-4 bg-white dark:bg-zinc-950 dark:border-t dark:border-t-zinc-900/25'>
       {chatImageUrl && chatImageUrl !== undefined ? (
-        <img
-          src={chatImageUrl}
-          className='w-[15%] border-zinc-300 mb-2 border p-2 rounded-xl'
-        />
+        <p className='mb-2 border border-zinc-600 dark:border-zinc-800 border-dashed w-fit px-4 py-1.5 rounded-lg'>
+          Image attached
+        </p>
       ) : null}
       <div className='relative focus-within:outline-2 bg-zinc-100 dark:bg-zinc-950 focus-within:bg-zinc-50 border rounded-lg px-2 py-3.5 focus-within:border-orange-600 focus-within:border-2'>
         <TextareaAutosize
@@ -132,7 +131,7 @@ const ChatInput = ({
           </div>
         </div>
 
-        <div className='absolute  right-0 bottom-0 mb-2 mr-2 flex justify-between gap-x-2.5'>
+        <div className='absolute right-0 bottom-0 mb-2 mr-2 flex justify-between gap-x-2.5'>
           <div>
             <Button
               size={'icon'}
@@ -163,7 +162,7 @@ const ChatInput = ({
       </div>
       {isDropZoneOpen ? (
         <div className='z-[9999] absolute flex items-center justify-center bg-black/80 top-0 bottom-0 left-0 right-0'>
-          <div className='  w-[75%] h-[25rem] rounded-xl bg-white'>
+          <div className='  w-[75%] h-[25rem] rounded-xl bg-white dark:bg-zinc-950'>
             <Dropzone
               onDropRejected={onDropRejected}
               onDropAccepted={onDropAccepted}
@@ -214,8 +213,8 @@ const ChatInput = ({
                             upload
                           </p>
                         ) : (
-                          <p>
-                            <span className='font-semibold'>
+                          <p className='dark:text-zinc-400'>
+                            <span className='font-semibold dark:text-zinc-200'>
                               Click to upload
                             </span>{' '}
                             or drag and drop
