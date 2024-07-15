@@ -103,7 +103,7 @@ export default async function Home() {
             <p className='text-center md:text-justify mt-8 text-zinc-800'>
               Experience seamless real-time communication with our intuitive web
               chat app. Connect with friends, family, and colleagues
-              effortlessly, whether you're at home or on the go. Fast, secure,
+              effortlessly, whether you are at home or on the go. Fast, secure,
               and user-friendly—start chatting today!
             </p>
 
@@ -301,8 +301,8 @@ export default async function Home() {
               <p className='text-justify mt-6 text-zinc-800'>
                 Experience seamless real-time communication with our intuitive
                 web chat app. Connect with friends, family, and colleagues
-                effortlessly, whether you're at home or on the go. Fast, secure,
-                and user-friendly—start chatting today!
+                effortlessly, whether you are at home or on the go. Fast,
+                secure, and user-friendly—start chatting today!
               </p>
 
               <div className='mt-16 flex items-center space-x-6'>

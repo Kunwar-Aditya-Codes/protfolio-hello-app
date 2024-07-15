@@ -57,7 +57,7 @@ const Notification = ({
       pusherClient.unbind('new_friend', addedFriendHandler);
       pusherClient.unbind('reject_friend', denyFriendHandler);
     };
-  }, []);
+  }, [sessionUserId]);
 
   return (
     <TooltipProvider delayDuration={300}>
