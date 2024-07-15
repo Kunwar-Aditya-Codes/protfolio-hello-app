@@ -18,7 +18,7 @@ export function toPusherKey(key: string) {
 export function constructMetadata({
   title = 'Hello - connect to world!',
   description = 'Connect and chat with friends across world',
-  image = '/thumbnail.jfif',
+  image = '/thumbnail.png',
   icons = '/favicon.ico',
 }: {
   title?: string;
