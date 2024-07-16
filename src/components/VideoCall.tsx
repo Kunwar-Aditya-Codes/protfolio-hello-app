@@ -276,9 +276,9 @@ const VideoCall = ({
       </div>
 
       {/* Video Call Space */}
-      <div className='grow relative bg-red-200 flex flex-col justify-evenly items-center mt-8'>
+      <div className='grow relative flex flex-col justify-evenly items-center mt-8'>
         <div className='flex items-center justify-end h-full'>
-          <div className='relative border h-full sm:h-auto w-fit sm:max-w-[45rem]  sm:min-w-[30rem] rounded-xl p-2'>
+          <div className='relative border flex items-center justify-center h-full sm:h-auto w-fit sm:max-w-[45rem]  sm:min-w-[30rem] rounded-xl p-2'>
             <video
               autoPlay
               ref={partnerVideo}
@@ -291,12 +291,12 @@ const VideoCall = ({
         </div>
 
         <div className='absolute bottom-3 right-3 z-[10] sm:relative flex items-center justify-center'>
-          <div className='border max-w-[25rem] h-auto rounded-xl relative p-2 '>
+          <div className='border sm:max-w-[25rem] h-auto rounded-xl relative p-2 '>
             <video
               autoPlay
               ref={yourVideo}
               muted
-              className='rounded-xl w-[15rem] md:[w-20rem]'
+              className='rounded-xl h-[8rem] sm:max-h-[20rem] sm:w-[15rem] md:[w-20rem]'
             />
             <span className='absolute top-0 left-0 bg-orange-600 px-2 text-xs py-1 rounded-tl-xl'>
               {you.username}
