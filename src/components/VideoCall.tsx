@@ -278,7 +278,7 @@ const VideoCall = ({
       {/* Video Call Space */}
       <div className='grow relative flex flex-col justify-evenly items-center mt-8'>
         <div className='flex items-center justify-end h-full'>
-          <div className='relative border flex items-center justify-center h-full sm:h-auto w-fit sm:max-w-[45rem]  sm:min-w-[30rem] rounded-xl p-2'>
+          <div className='relative border flex items-start justify-center h-full sm:h-auto w-fit sm:max-w-[45rem]  sm:min-w-[30rem] rounded-xl p-2'>
             <video
               autoPlay
               ref={partnerVideo}
