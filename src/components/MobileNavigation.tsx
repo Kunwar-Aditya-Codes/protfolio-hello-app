@@ -1,4 +1,4 @@
-import { LogOut } from 'lucide-react';
+import { LogOut, Settings } from 'lucide-react';
 import Link from 'next/link';
 import AddFriend from './AddFriend';
 import FriendRequest from './FriendRequest';
@@ -11,6 +11,9 @@ const MobileNavigation = () => {
         <div className='flex items-start gap-x-6'>
           <AddFriend />
           <FriendRequest />
+          <Link href={'/dashboard/settings'}>
+            <Settings className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-zinc-400' />
+          </Link>
         </div>
         <div className='flex items-center gap-x-8'>
           <ThemeSwitcher />
