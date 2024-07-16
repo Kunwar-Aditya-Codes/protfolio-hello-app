@@ -15,7 +15,7 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { addFriendToChat } from '@/app/dashboard/(chat)/actions';
 import { useToast } from './ui/use-toast';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, TriangleAlert } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import {
   Tooltip,
@@ -106,6 +106,15 @@ const AddFriend = () => {
                 Submit
               </Button>
             </form>
+          </div>
+
+          <div className='text-sm mt-4 '>
+            <p className='flex items-center gap-x-2'>
+              <TriangleAlert className='size-4 text-orange-600' />
+              <span className='dark:text-muted-foreground'>
+                The user should be registered to be added as a friend!
+              </span>
+            </p>
           </div>
         </DialogContent>
       </Dialog>
