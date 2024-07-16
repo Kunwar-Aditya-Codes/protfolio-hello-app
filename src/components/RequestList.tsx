@@ -56,8 +56,8 @@ const RequestList = ({ incomingRequests, sessionUserId }: RequestListProps) => {
   const { mutate: acceptFriendRequestMutation } = useMutation({
     mutationKey: ['accept-request'],
     mutationFn: acceptFriendRequest,
-    onSuccess: ({ success, senderId }) => {
-      if (success) {
+    onSuccess: ({ success, senderId, message }) => {
+      if (success === true) {
         toast({
           title: 'You are now friends.',
           duration: 1500,
@@ -66,6 +66,14 @@ const RequestList = ({ incomingRequests, sessionUserId }: RequestListProps) => {
         setFriendRequests((prev) =>
           prev.filter((request) => request.senderId !== senderId)
         );
+      } else {
+        toast({
+          title: message,
+          duration: 1500,
+          variant: 'destructive',
+        });
+
+        return;
       }
     },
     onError: (error) => {

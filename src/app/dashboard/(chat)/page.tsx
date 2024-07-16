@@ -49,7 +49,7 @@ const Page = async () => {
         <h1 className='text-4xl font-semibold text-zinc-700 dark:text-zinc-300'>
           Recent Chats
         </h1>
-        <div className='mt-8 max-w-5xl'>
+        <div className='mt-8 max-w-5xl flex flex-col gap-y-4'>
           {topChats.length === 0 ? (
             <p className='dark:text-zinc-200'>No recent chats!</p>
           ) : (
@@ -61,7 +61,7 @@ const Page = async () => {
                   friend?.id!
                 )}`}
               >
-                <div className='shadow-sm hover:shadow bg-white dark:bg-zinc-950 rounded-lg  p-6 flex items-center justify-between'>
+                <div className='shadow-sm hover:shadow bg-white dark:bg-zinc-950 rounded-lg p-6 flex items-center justify-between'>
                   <div className='flex items-start gap-x-2'>
                     <div className=''>
                       <img

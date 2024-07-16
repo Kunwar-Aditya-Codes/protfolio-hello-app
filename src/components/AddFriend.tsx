@@ -36,8 +36,8 @@ const AddFriend = () => {
   const { mutate } = useMutation({
     mutationKey: ['add-friend'],
     mutationFn: addFriendToChat,
-    onSuccess: ({ success }) => {
-      if (success) {
+    onSuccess: ({ success, message }) => {
+      if (success === true) {
         reset({
           email: '',
         });
@@ -45,6 +45,12 @@ const AddFriend = () => {
           title: 'Request sent.',
           description: 'Your friend request has been sent successfully!',
           duration: 1500,
+        });
+      } else {
+        toast({
+          title: message,
+          duration: 1500,
+          variant: 'destructive',
         });
       }
     },
