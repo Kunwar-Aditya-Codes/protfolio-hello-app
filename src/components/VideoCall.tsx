@@ -282,7 +282,7 @@ const VideoCall = ({
             <video
               autoPlay
               ref={partnerVideo}
-              className='rounded-xl  h-full  sm:max-h-[20rem]'
+              className='rounded-xl h-full sm:max-h-[20rem]'
             />
             <span className='absolute top-0 left-0 bg-orange-600 px-2 text-xs py-1 rounded-tl-xl'>
               {partner.username}
@@ -296,7 +296,7 @@ const VideoCall = ({
               autoPlay
               ref={yourVideo}
               muted
-              className='rounded-xl h-[15rem] sm:max-h-[20rem] sm:w-[15rem] md:[w-20rem]'
+              className='rounded-xl h-[15rem] sm:h-fit sm:max-h-[20rem] sm:w-[15rem] md:[w-20rem]'
             />
             <span className='absolute top-0 left-0 bg-orange-600 px-2 text-xs py-1 rounded-tl-xl'>
               {you.username}

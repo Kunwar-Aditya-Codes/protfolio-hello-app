@@ -108,13 +108,23 @@ export default async function Home() {
             </p>
 
             <div className='mt-10 flex flex-col items-center space-y-6 md:space-y-0  md:flex-row md:space-x-6'>
-              <Link
-                href={'/api/auth/register'}
-                className=' shadow-md bg-white text-orange-500 px-3 py-2  tracking-wide font-medium  sm:px-6 sm:py-4 rounded-full sm:text-lg flex items-center justify-between space-x-4 w-fit'
-              >
-                Get Started
-                <ArrowRight className='size-4 ml-2' />
-              </Link>
+              {sessionUser?.id ? (
+                <Link
+                  href={'/dashboard'}
+                  className=' shadow-md bg-white text-orange-500 px-3 py-2  tracking-wide font-medium  sm:px-6 sm:py-4 rounded-full sm:text-lg flex items-center justify-between space-x-4 w-fit'
+                >
+                  Dashboard
+                  <ArrowRight className='size-4 ml-2' />
+                </Link>
+              ) : (
+                <Link
+                  href={'/api/auth/register'}
+                  className=' shadow-md bg-white text-orange-500 px-3 py-2  tracking-wide font-medium  sm:px-6 sm:py-4 rounded-full sm:text-lg flex items-center justify-between space-x-4 w-fit'
+                >
+                  Get Started
+                  <ArrowRight className='size-4 ml-2' />
+                </Link>
+              )}
 
               <div className='flex items-center space-x-4 text-muted-foreground'>
                 <Smartphone className='size-6 mb-0.5' />
