@@ -1,4 +1,4 @@
-import { LogOut, Settings } from 'lucide-react';
+import { Home, LogOut, Settings } from 'lucide-react';
 import Link from 'next/link';
 import AddFriend from './AddFriend';
 import FriendRequest from './FriendRequest';
@@ -9,6 +9,9 @@ const MobileNavigation = () => {
     <div className='bg-white dark:bg-zinc-950  border-b dark:border-b-zinc-900/15 dark:shadow-none absolute top-0 left-0 right-0 md:hidden h-[4rem] flex items-center px-6 shadow-md'>
       <div className='w-full flex items-center justify-between'>
         <div className='flex items-start gap-x-6'>
+          <Link href={'/dashboard'}>
+            <Home className='size-6 md:size-7 text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-zinc-400' />
+          </Link>
           <AddFriend />
           <FriendRequest />
           <Link href={'/dashboard/settings'}>
