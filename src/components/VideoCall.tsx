@@ -278,11 +278,11 @@ const VideoCall = ({
       {/* Video Call Space */}
       <div className='grow relative flex flex-col justify-evenly  items-center mt-8'>
         <div className='flex items-center justify-end h-full '>
-          <div className='relative border flex items-start h-full sm:h-auto w-fit sm:max-w-[45rem]  sm:min-w-[30rem] rounded-xl p-2'>
+          <div className='relative border flex justify-center items-start h-full sm:h-auto w-fit sm:max-w-[45rem]  sm:min-w-[30rem] rounded-xl p-2'>
             <video
               autoPlay
               ref={partnerVideo}
-              className='rounded-xl h-auto max-h-full flex  justify-center sm:max-h-[20rem]'
+              className='rounded-xl h-auto max-h-full sm:max-h-[20rem]'
             />
             <span className='absolute top-0 left-0 bg-orange-600 px-2 text-xs py-1 rounded-tl-xl'>
               {partner.username}
