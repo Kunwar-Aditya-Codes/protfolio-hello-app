@@ -21,7 +21,7 @@ const Page = async ({ params }: { params: { callId: string } }) => {
   ])) as [User, User];
 
   return (
-    <div className='h-screen bg-zinc-950 text-white p-6'>
+    <div className=' h-[100dvh] bg-zinc-950 text-white p-6'>
       <VideoCall you={chatSessionUser} partner={chatPartner} callId={callId} />
     </div>
   );
