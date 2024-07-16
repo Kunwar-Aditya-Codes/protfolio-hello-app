@@ -252,7 +252,7 @@ const VideoCall = ({
   };
 
   return (
-    <div className='h-full flex flex-col px-12'>
+    <div className='h-full flex flex-col  px-6 md:px-12'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-x-6'>
           <button onClick={toggleMic} type='button'>
@@ -276,13 +276,13 @@ const VideoCall = ({
       </div>
 
       {/* Video Call Space */}
-      <div className='grow relative flex flex-col justify-evenly items-center mt-8'>
-        <div className='flex items-center justify-end h-full'>
-          <div className='relative border flex items-start justify-center h-full sm:h-auto w-fit sm:max-w-[45rem]  sm:min-w-[30rem] rounded-xl p-2'>
+      <div className='grow relative flex flex-col justify-evenly  items-center mt-8'>
+        <div className='flex items-center justify-end h-full '>
+          <div className='relative border flex items-start h-full sm:h-auto w-fit sm:max-w-[45rem]  sm:min-w-[30rem] rounded-xl p-2'>
             <video
               autoPlay
               ref={partnerVideo}
-              className='rounded-xl h-full sm:max-h-[20rem]'
+              className='rounded-xl h-auto max-h-full   justify-center sm:max-h-[20rem]'
             />
             <span className='absolute top-0 left-0 bg-orange-600 px-2 text-xs py-1 rounded-tl-xl'>
               {partner.username}
