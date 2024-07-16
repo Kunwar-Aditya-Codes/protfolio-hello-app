@@ -282,7 +282,7 @@ const VideoCall = ({
             <video
               autoPlay
               ref={partnerVideo}
-              className='rounded-xl h-auto max-h-full   justify-center sm:max-h-[20rem]'
+              className='rounded-xl h-auto max-h-full flex  justify-center sm:max-h-[20rem]'
             />
             <span className='absolute top-0 left-0 bg-orange-600 px-2 text-xs py-1 rounded-tl-xl'>
               {partner.username}
